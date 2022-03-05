@@ -4,11 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "watch-build": "parcel src/index.html --dist-dir dist -p 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "browser-sync": "^2.27.7",
+    "parcel": "^2.3.2",
     "pixi.js": "^6.2.2"
-  }
+  },
+  "devDependencies": {
+    "querystring-es3": "^0.2.1"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead"
 }
