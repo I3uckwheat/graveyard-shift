@@ -6,6 +6,7 @@ export class PIXOtileSet {
 
   constructor({name, image, tileHeight, tileWidth, imageHeight, imageWidth}) {
     this.name = name;
+
     const baseTexture = PIXI.Texture.from(image);
 
     const columns = imageWidth / tileWidth;
@@ -19,7 +20,12 @@ export class PIXOtileSet {
     }
   }
 
-  get(number) {
-    return new PIXI.Sprite(this.#textures[number]);
+  get(gid) {
+    // Number is a 1 indexed value
+    return new PIXI.Sprite(this.#textures[gid - 1]);
+  }
+
+  get count() {
+    return this.#textures.length;
   }
 }

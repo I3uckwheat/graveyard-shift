@@ -5,6 +5,7 @@ import { PIXOcollidor } from "./PIXOcollidor";
 import { PIXOinput } from "./PIXOinput";
 import { PIXOtiledLoader } from "./PIXOtiledMap";
 import { PIXOtileSet } from "./PIXOtileSet";
+import { PIXOspriteSheetSet } from "./PIXOspriteSheetSet";
 
 export class PIXOtaur {
   #elapsed = 0;
@@ -41,4 +42,4 @@ export class PIXOtaur {
   }
 }
 
-export { PIXOentity, PIXOcollidor, PIXOinput, PIXOtiledLoader, PIXOtileSet };
+export { PIXOentity, PIXOcollidor, PIXOinput, PIXOtiledMap, PIXOtileSet, PIXOspriteSheetSet };
