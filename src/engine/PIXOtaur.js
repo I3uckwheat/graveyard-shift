@@ -1,7 +1,10 @@
 import * as PIXI from "pixi.js";
+
 import { PIXOentity } from "./PIXOentity";
 import { PIXOcollidor } from "./PIXOcollidor";
 import { PIXOinput } from "./PIXOinput";
+import { PIXOtiledLoader } from "./PIXOtiledMap";
+import { PIXOtileSet } from "./PIXOtileSet";
 
 export class PIXOtaur {
   #elapsed = 0;
@@ -25,6 +28,10 @@ export class PIXOtaur {
     this.#entities.forEach(entity => entity.render(dt, elapsed));
   }
 
+  setMap() {
+    // const map = new PIXI.extras.TiledMap(baseMap);
+  }
+
   start() {
     this.app.ticker.add(delta => {
       this.#elapsed += delta;
@@ -34,4 +41,4 @@ export class PIXOtaur {
   }
 }
 
-export { PIXOentity, PIXOcollidor, PIXOinput };
+export { PIXOentity, PIXOcollidor, PIXOinput, PIXOtiledLoader, PIXOtileSet };

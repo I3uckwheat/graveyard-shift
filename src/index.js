@@ -1,13 +1,13 @@
 import * as PIXI from "pixi.js";
-import { PIXOtaur, PIXOentity, PIXOinput } from "./engine/PIXOtaur.js";
+import { PIXOtaur, PIXOentity, PIXOinput, PIXOtileSet } from "./engine/PIXOtaur.js";
 
-import spriteSheet from "./assets/spritesheets/16x16_tileset.png";
+import tileset from "./assets/spritesheets/16x16_tileset.png";
 
-const texture = PIXI.Texture.from(spriteSheet);
-const player = new PIXI.Texture(texture, {x: 16 * 11, y: 16 * 15, width: 16, height: 16});
-const sprite = new PIXI.Sprite(player);
 
-const characterInput = new PIXOinput();
+// const texture = PIXI.Texture.from(spriteSheet);
+// const player = new PIXI.Texture(texture, {x: 16 * 11, y: 16 * 15, width: 16, height: 16});
+// const sprite = new PIXI.Sprite(player);
+
 
 class PlayerCharacter extends PIXOentity {
   constructor({PIXISprite, x=0, y=0, input}) {
@@ -40,6 +40,20 @@ class PlayerCharacter extends PIXOentity {
 }
 
 const test = new PIXOtaur({});
+test.setMap();
+
+
+const tilesetSheet = new PIXOtileSet({
+  name: "16x16_tileset",
+  image: tileset,
+  tileHeight: 16,
+  tileWidth: 16,
+  imageHeight: 16 * 16,
+  imageWidth: 16 * 16,
+});
+const sprite = tilesetSheet.get(251);
+
+const characterInput = new PIXOinput();
 const character = new PlayerCharacter({PIXISprite: sprite, input: characterInput});
 test.addEntity(character);
 test.start();

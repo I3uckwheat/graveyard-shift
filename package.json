@@ -15,6 +15,7 @@
     "pixi.js": "^6.2.2"
   },
   "devDependencies": {
+    "parcel-plugin-static-files-copy": "^2.6.0",
     "querystring-es3": "^0.2.1"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead"
