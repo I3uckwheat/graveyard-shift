@@ -4,7 +4,7 @@ import { PlayerCharacter } from "./PlayerCharacter.js";
 
 import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
-import map from "./assets/maps/base.json";
+import mapJSON from "./assets/maps/base.json";
 
 const test = new PIXOtaur({});
 
@@ -30,14 +30,14 @@ const wallSheet = new PIXOtileSet({
 
 const spriteSheetSet = new PIXOspriteSheetSet([
   {gidRange: [1, 256], sheet: tilesetSheet}, 
-  {gidRange: [257, 257 + 256], sheet: wallSheet}, 
+  {gidRange: [257, 513], sheet: wallSheet}, 
 ]);
 
-const player = spriteSheetSet.get(252);
+const player = spriteSheetSet.get(253);
 
 const map = new PIXOtiledMap({
-  mapJSON: map,
-  spriteSheets: [tilesetSheet, wallSheet]
+  mapJSON: mapJSON,
+  spriteSheetSet: spriteSheetSet
 });
 
 test.setMap(map);

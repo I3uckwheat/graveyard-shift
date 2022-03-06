@@ -3,13 +3,16 @@ import * as PIXI from "pixi.js";
 import { PIXOentity } from "./PIXOentity";
 import { PIXOcollidor } from "./PIXOcollidor";
 import { PIXOinput } from "./PIXOinput";
-import { PIXOtiledLoader } from "./PIXOtiledMap";
+import { PIXOtiledMap } from "./PIXOtiledMap";
 import { PIXOtileSet } from "./PIXOtileSet";
 import { PIXOspriteSheetSet } from "./PIXOspriteSheetSet";
 
 export class PIXOtaur {
   #elapsed = 0;
   #entities = [];
+  #map;
+
+  app;
 
   constructor({width=640, height=360}) {
     this.app = new PIXI.Application({ width, height });
@@ -29,8 +32,9 @@ export class PIXOtaur {
     this.#entities.forEach(entity => entity.render(dt, elapsed));
   }
 
-  setMap() {
-    // const map = new PIXI.extras.TiledMap(baseMap);
+  setMap(map) {
+    this.#map = map;
+    this.app.stage.addChild(...map.layers);
   }
 
   start() {
