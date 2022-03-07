@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@pixi/layers": "^1.0.11",
     "browser-sync": "^2.27.7",
     "parcel": "^2.3.2",
     "pixi.js": "^6.2.2"

@@ -3,18 +3,22 @@ import * as PIXI from "pixi.js";
 export class PIXOtiledMap {
   #spriteSheetSet;
   #layers = [];
+  #layerIndexes = [];
   height;
   width;
 
-  constructor({mapJSON, spriteSheetSet}) {
+  constructor({mapJSON, spriteSheetSet, layerIndexes=[]}) {
     this.height = mapJSON.height;
     this.width = mapJSON.width;
     this.#spriteSheetSet = spriteSheetSet;
+    this.#layerIndexes = layerIndexes;
 
     mapJSON.layers.forEach((layer) => {
       const sprites = this.createLayerSprites(layer);
       this.#layers.push({...layer, sprites});
     });
+
+    this.setMapIndexes();
   }
 
   createLayerSprites(layer) {
@@ -36,6 +40,13 @@ export class PIXOtiledMap {
     }
 
     return layerSprites;
+  }
+
+  setMapIndexes() {
+    this.#layers.forEach(layer => {
+      const indexInformation = this.#layerIndexes.find(layerIndexData => layerIndexData.name === layer.name);
+      layer.sprites.zIndex = indexInformation.index;
+    });
   }
 
   get layers() {

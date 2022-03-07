@@ -1,4 +1,6 @@
 import * as PIXI from "pixi.js";
+import { Layer } from "@pixi/layers";
+
 import { PIXOtaur, PIXOinput, PIXOtileSet, PIXOtiledMap, PIXOspriteSheetSet } from "./engine/PIXOtaur.js";
 import { PlayerCharacter } from "./PlayerCharacter.js";
 
@@ -35,15 +37,21 @@ const spriteSheetSet = new PIXOspriteSheetSet([
   {gidRange: [257, 513], sheet: wallSheet}, 
 ]);
 
-const player = spriteSheetSet.get(252);
-
 const map = new PIXOtiledMap({
   mapJSON: mapJSON,
-  spriteSheetSet: spriteSheetSet
+  spriteSheetSet: spriteSheetSet,
+  layerIndexes: [
+    {name: "Above", index: 1},
+    {name: "Floor", index: -1},
+    {name: "Walls", index: -1}
+  ]
 });
 
-test.setMap(map);
+
 const characterInput = new PIXOinput();
+const player = spriteSheetSet.get(252);
 const character = new PlayerCharacter({PIXISprite: player, input: characterInput});
 test.addEntity(character);
+test.setMap(map);
+
 test.start();

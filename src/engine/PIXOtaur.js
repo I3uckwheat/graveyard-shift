@@ -11,19 +11,38 @@ export class PIXOtaur {
   #elapsed = 0;
   #entities = [];
   #map;
+  #spritesContainer;
 
   app;
 
   constructor({width=400, height=400, spriteScale={x: 1, y: 1}}) {
     this.app = new PIXI.Application({ width, height });
+    this.app.stage.sortableChildren = true;
     this.app.stage.scale.x = spriteScale.x;
     this.app.stage.scale.y = spriteScale.y;
+
+    this.#spritesContainer = new PIXI.Container();
+    this.#spritesContainer.zIndex = 0;
+    this.app.stage.addChild(this.#spritesContainer);
+
     document.body.appendChild(this.app.view);
   }
 
   addEntity(entity) {
     this.#entities.push(entity);
-    if(entity.components.sprite) this.app.stage.addChild(entity.components.sprite);
+    if(entity.components.sprite) {
+      this.#spritesContainer.addChild(entity.components.sprite);
+    }
+  }
+
+  update(dt, elapsed) {
+    this.#entities.forEach(entity => entity.update(dt, elapsed));
+  }
+
+  setMap(map) {
+    this.#map = map;
+    this.app.stage.addChild(...map.layers);
+    this.app.stage.sortChildren();
   }
 
   update(dt, elapsed) {
@@ -32,11 +51,6 @@ export class PIXOtaur {
 
   render(dt, elapsed) {
     this.#entities.forEach(entity => entity.render(dt, elapsed));
-  }
-
-  setMap(map) {
-    this.#map = map;
-    this.app.stage.addChild(...map.layers);
   }
 
   start() {
