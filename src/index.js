@@ -6,7 +6,9 @@ import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
 import mapJSON from "./assets/maps/base.json";
 
-const test = new PIXOtaur({width: 400 * 1.5, height: 400 * 1.5, spriteScale: {x: 1.5, y: 1.5}});
+PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+
+const test = new PIXOtaur({width: 400 * 2, height: 400 * 2, spriteScale: {x: 2, y: 2}});
 
 const tilesetSheet = new PIXOtileSet({
   gidStart: 1,
