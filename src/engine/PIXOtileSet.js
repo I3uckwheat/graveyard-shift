@@ -21,8 +21,7 @@ export class PIXOtileSet {
   }
 
   get(gid) {
-    // Number is a 1 indexed value
-    return new PIXI.Sprite(this.#textures[gid - 1]);
+    return new PIXI.Sprite(this.#textures[gid]);
   }
 
   get count() {

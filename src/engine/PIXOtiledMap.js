@@ -20,18 +20,18 @@ export class PIXOtiledMap {
   createLayerSprites(layer) {
     const layerSprites = new PIXI.Container();
 
-    let column = 1;
+    let column = 0;
     let row = 0;
     for(let tileGid of layer.data) {
-      const sprite = this.#spriteSheetSet.get(tileGid + 1);
-      sprite.x = (column * sprite.width) + sprite.width;
-      sprite.y = (row * sprite.height) + sprite.height;
+      const sprite = this.#spriteSheetSet.get(tileGid);
+      sprite.x = (column * sprite.width);
+      sprite.y = (row * sprite.height);
       layerSprites.addChild(sprite);
 
       column++;
-      if(column > this.width) {
+      if(column >= this.width) {
         row++;
-        column = 1;
+        column = 0;
       }
     }
 

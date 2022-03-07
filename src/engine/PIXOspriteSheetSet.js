@@ -1,3 +1,5 @@
+import * as PIXI from "pixi.js";
+
 export class PIXOspriteSheetSet {
   #spriteSheets = [];
   #gidRanges = [];
@@ -14,6 +16,7 @@ export class PIXOspriteSheetSet {
 
   get(gid) {
     if(gid < 0) throw new Error("PIXOspriteSheetSets start at a gid of 0");
+    if(gid == 0) return new PIXI.Sprite();
 
     const spriteSheetIndex = this.#gidRanges.findIndex(([a, b]) => {
       const min = Math.min(a, b);
@@ -26,7 +29,7 @@ export class PIXOspriteSheetSet {
     if(spriteSheetIndex < 0) throw new Error("Sprite not found");
 
     const sheet = this.#spriteSheets[spriteSheetIndex];
-    const sheetGid = gid - Math.min(...this.#gidRanges[spriteSheetIndex]); // Need to add 1 to account for 1 indexing
+    const sheetGid = gid - Math.min(...this.#gidRanges[spriteSheetIndex]); 
     return sheet.get(sheetGid);
   }
 }

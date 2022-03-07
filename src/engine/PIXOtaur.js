@@ -14,8 +14,10 @@ export class PIXOtaur {
 
   app;
 
-  constructor({width=640, height=360}) {
+  constructor({width=400, height=400, spriteScale={x: 1, y: 1}}) {
     this.app = new PIXI.Application({ width, height });
+    this.app.stage.scale.x = spriteScale.x;
+    this.app.stage.scale.y = spriteScale.y;
     document.body.appendChild(this.app.view);
   }
 

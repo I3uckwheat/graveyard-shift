@@ -6,7 +6,7 @@ import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
 import mapJSON from "./assets/maps/base.json";
 
-const test = new PIXOtaur({});
+const test = new PIXOtaur({width: 400 * 1.5, height: 400 * 1.5, spriteScale: {x: 1.5, y: 1.5}});
 
 const tilesetSheet = new PIXOtileSet({
   gidStart: 1,
@@ -33,7 +33,7 @@ const spriteSheetSet = new PIXOspriteSheetSet([
   {gidRange: [257, 513], sheet: wallSheet}, 
 ]);
 
-const player = spriteSheetSet.get(253);
+const player = spriteSheetSet.get(252);
 
 const map = new PIXOtiledMap({
   mapJSON: mapJSON,
