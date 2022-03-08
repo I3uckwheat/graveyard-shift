@@ -3,6 +3,12 @@ import { PIXOentity } from "./engine/PIXOentity";
 export class PlayerCharacter extends PIXOentity {
   constructor({PIXISprite, x=0, y=0, input}) {
     super({PIXISprite, x, y, input});
+    this.components.collidor.hitboxes = [{hitbox: {x: 2, y: 12, height: 4, width: 12}, name: "player-feet"}];
+    this.components.collidor.handler = this.collisionHandler;
+  }
+
+  collisionHandler(collidorName, entity) {
+    console.log("Collided with", collidorName);
   }
 
   update(dt) {

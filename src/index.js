@@ -57,14 +57,14 @@ const collidorSpace = new PIXOcollidorSpace();
 test.addEntity(collidorSpace);
 
 collidorSpace.addStaticCollidors(map.collidors);
-collidorSpace.showHitboxes(true);
 
 
 const characterInput = new PIXOinput();
 const player = spriteSheetSet.get(252);
 const character = new PlayerCharacter({PIXISprite: player, input: characterInput});
-collidorSpace.addDynamicCollidor(character, {height: 16, width: 16});
+collidorSpace.addDynamicCollidorsFromEntity(character);
 test.addEntity(character);
 test.setMap(map);
+collidorSpace.showHitboxes(true);
 
 test.start();

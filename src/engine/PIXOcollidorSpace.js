@@ -1,5 +1,49 @@
 import * as PIXI from "pixi.js";
 
+// Static positions
+export class PIXOstaticCollidorHitbox {
+  collidorName;
+  x;
+  y;
+  width;
+  height;
+
+  constructor(hitboxName, {x, y, width, height}) {
+    this.collidorName = hitboxName;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+
+  get hitbox() {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height
+    }
+  }
+}
+
+// Based on offsets of entity
+export class PIXOdynamicCollidorHitbox extends PIXOstaticCollidorHitbox {
+  entity;
+  constructor(entity, collidorName, {x, y, width, height}) {
+    super(collidorName, {x, y, width, height});
+    this.entity = entity;
+  }
+
+  get hitbox() {
+    return { 
+      x: this.entity.x + this.x, 
+      y: this.entity.y + this.y, 
+      width: this.width, 
+      height: this.height
+    }
+  }
+}
+
 export class PIXOcollidorSpace {
   components = {};
   #dynamicCollidors = [];
@@ -10,36 +54,36 @@ export class PIXOcollidorSpace {
   constructor() {}
 
   // x and y are adjustments from the entity position
-  addDynamicCollidor(entity, {x=0, y=0, width=entity.width, height=entity.height}={}) {
-    this.#dynamicCollidors.push({entity, x, y, width, height});
+  addDynamicCollidorsFromEntity(entity) {
+    for(const hitboxData of entity.components.collidor.hitboxes) {
+      const collidor = new PIXOdynamicCollidorHitbox(entity, hitboxData.name, hitboxData.hitbox);
+      this.#dynamicCollidors.push(collidor);
+    }
   }
 
   addStaticCollidor({x, y, width, height}) {
-    this.#staticCollidors.push({x, y, width, height});
+    const staticCollidor = new PIXOstaticCollidorHitbox("PIXOstaticCollidor", {x, y, width, height});
+    this.#staticCollidors.push(staticCollidor);
   }
 
-  addStaticCollidors(collidors) {
-    collidors.forEach(collidor => this.#staticCollidors.push(collidor));
+  addStaticCollidors(hitboxes) {
+    hitboxes.forEach(hitbox => this.addStaticCollidor(hitbox));
   }
 
   update(dt) {
-    this.#hitboxRenders[0].x = this.#dynamicCollidors[0].entity.x
-    this.#hitboxRenders[0].y = this.#dynamicCollidors[0].entity.y
+    this.#hitboxRenders[0].x = this.#dynamicCollidors[0].entity.x + this.#dynamicCollidors[0].x;
+    this.#hitboxRenders[0].y = this.#dynamicCollidors[0].entity.y + this.#dynamicCollidors[0].y;
 
     // Static vs dynamic collisions
     for(const dynamicCollidor of this.#dynamicCollidors) {
       for(const staticCollidor of this.#staticCollidors) {
         const entity = dynamicCollidor.entity;
-        const hitbox = {
-          x: entity.x, 
-          y: entity.y, 
-          width: dynamicCollidor.width, 
-          height: dynamicCollidor.height
+
+        const isColliding = this.isColliding(dynamicCollidor.hitbox, staticCollidor.hitbox);
+
+        if(isColliding) {
+          entity.components.collidor.handler(staticCollidor.collidorName);
         }
-
-        const isColliding = this.isColliding(hitbox, staticCollidor);
-
-        if(isColliding) console.log("collision!!");
       }
     }
   }
@@ -59,7 +103,7 @@ export class PIXOcollidorSpace {
       this.showHitboxes = value;
       const hitbox = new PIXI.Graphics();
       hitbox.lineStyle(1, 0xFF000);
-      hitbox.drawRect(0, 0, 16, 16);
+      hitbox.drawRect(0, 0, this.#dynamicCollidors[0].width, this.#dynamicCollidors[0].height);
       hitbox.zIndex = 9999;
 
       this.#hitboxRenders.push(hitbox);
