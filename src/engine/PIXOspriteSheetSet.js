@@ -32,4 +32,9 @@ export class PIXOspriteSheetSet {
     const sheetGid = gid - Math.min(...this.#gidRanges[spriteSheetIndex]); 
     return sheet.get(sheetGid);
   }
+
+  getSize(gid) {
+    const sprite = this.get(gid);
+    return {width: sprite.width, height: sprite.height}
+  }
 }

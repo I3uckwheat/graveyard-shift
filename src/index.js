@@ -39,27 +39,31 @@ const spriteSheetSet = new PIXOspriteSheetSet([
 const map = new PIXOtiledMap({
   mapJSON: mapJSON,
   spriteSheetSet: spriteSheetSet,
-  layerIndexes: [
-    {name: "Above", index: 1},
-    {name: "Floor", index: -1},
-    {name: "Walls", index: -1}
-  ], 
+  layerIndexes: {
+    "Above": 1,
+    "Floor": -1,
+    "Walls": -1
+  },
 
   // adjust: x and y are how many pixels to move in either direction, w and h adjust the size from the right, not center
   // So make sure the x and y are properly adjusted
-  colliderTileLayers: [{name: "Walls", adjust: {x: 0, y: 0, w: 0, h: 0}}] // For exporting collision boxes
+  // colliderTileLayers: [{name: "Walls", adjust: {x: 0, y: 0, w: 0, h: 0}}] // For exporting collision boxes
+  collidorData: { // For exporting collision boxes
+    "Walls": {x: 0, y: 0, w: 0, h: 0}
+  }
 });
 
 const collidorSpace = new PIXOcollidorSpace();
 test.addEntity(collidorSpace);
 
-// collidorSpace.addStaticCollidors(map.collidorObjects);
+collidorSpace.addStaticCollidors(map.collidors);
+collidorSpace.showHitboxes(true);
 
 
 const characterInput = new PIXOinput();
 const player = spriteSheetSet.get(252);
 const character = new PlayerCharacter({PIXISprite: player, input: characterInput});
-collidorSpace.addDynamicCollidor(character);
+collidorSpace.addDynamicCollidor(character, {height: 16, width: 16});
 test.addEntity(character);
 test.setMap(map);
 

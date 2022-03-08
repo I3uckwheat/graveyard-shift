@@ -1,7 +1,11 @@
+import * as PIXI from "pixi.js";
+
 export class PIXOcollidorSpace {
   components = {};
   #dynamicCollidors = [];
   #staticCollidors = [];
+  #hitboxRenders = [];
+  context;
 
   constructor() {}
 
@@ -19,26 +23,59 @@ export class PIXOcollidorSpace {
   }
 
   update(dt) {
+    this.#hitboxRenders[0].x = this.#dynamicCollidors[0].entity.x
+    this.#hitboxRenders[0].y = this.#dynamicCollidors[0].entity.y
 
     // Static vs dynamic collisions
     for(const dynamicCollidor of this.#dynamicCollidors) {
       for(const staticCollidor of this.#staticCollidors) {
         const entity = dynamicCollidor.entity;
-        const isColliding = this.isColliding(entity, staticCollidor);
+        const hitbox = {
+          x: entity.x, 
+          y: entity.y, 
+          width: dynamicCollidor.width, 
+          height: dynamicCollidor.height
+        }
+
+        const isColliding = this.isColliding(hitbox, staticCollidor);
+
         if(isColliding) console.log("collision!!");
       }
     }
   }
 
   isColliding(a, b) {
-    if (a.x < b.x + b.w &&
-        a.x + a.w > b.x &&
-        a.y < b.y + b.h &&
-        a.h + a.y > b.y) {
+    if (a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.height + a.y > b.y) {
       return true;
     }
     return false;
   }
 
-  render(dt) {}
+  showHitboxes(value) {
+    if(value) {
+      this.showHitboxes = value;
+      const hitbox = new PIXI.Graphics();
+      hitbox.lineStyle(1, 0xFF000);
+      hitbox.drawRect(0, 0, 16, 16);
+      hitbox.zIndex = 9999;
+
+      this.#hitboxRenders.push(hitbox);
+      this.context.app.stage.addChild(hitbox);
+
+      for(const staticCollidor of this.#staticCollidors) {
+        const hitbox = new PIXI.Graphics();
+        hitbox.lineStyle(1, 0x00FF00);
+        hitbox.drawRect(staticCollidor.x, staticCollidor.y, staticCollidor.width, staticCollidor.height);
+        hitbox.zIndex = 9999;
+
+        this.context.app.stage.addChild(hitbox);
+      }
+    }
+  }
+
+  render(dt) {
+  }
 }

@@ -1,30 +1,45 @@
 import * as PIXI from "pixi.js";
 
 export class PIXOtiledMap {
+  #layersData = {};
   #spriteSheetSet;
-  #layers = [];
-  #layerIndexes = [];
-  #collidorObjects = [];
+  #collidorObjects;
   height;
   width;
 
-  constructor({mapJSON, spriteSheetSet, layerIndexes=[], colliderTileLayers=[]}) {
+  constructor({mapJSON, spriteSheetSet, layerIndexes=[], collidorData=[]}) {
     this.height = mapJSON.height;
     this.width = mapJSON.width;
     this.#spriteSheetSet = spriteSheetSet;
-    this.#layerIndexes = layerIndexes;
 
-    mapJSON.layers.forEach((layer) => {
-      const sprites = this.createLayerSprites(layer);
-      this.#layers.push({...layer, sprites});
-    });
+    this.parseLayerMetaData({mapJSON, layerIndexes, collidorData});
 
-    this.setMapIndexes();
-    this.#collidorObjects = this.gatherCollidorObjects(colliderTileLayers, mapJSON);
+    for(const layerDataName in this.#layersData) {
+      const layerData = this.#layersData[layerDataName];
+      layerData.container = this.createLayerSprites(layerData);
+    }
+  }
+
+  parseLayerMetaData({mapJSON, layerIndexes, collidorData}) {
+    for(const layerData of mapJSON.layers) {
+      const collidorMetaData = (() => {
+        if(collidorData[layerData.name]) return { adjust: collidorData[layerData.name] };
+      })()
+
+      const data = {
+        ...layerData,
+        renderIndex: layerIndexes[layerData.name],
+        container: undefined,
+        collidorMetaData
+      }
+
+      this.#layersData[layerData.name] = data;
+    }
   }
 
   createLayerSprites(layer) {
     const layerSprites = new PIXI.Container();
+    layerSprites.zIndex = layer.renderIndex;
 
     let column = 0;
     let row = 0;
@@ -44,36 +59,40 @@ export class PIXOtiledMap {
     return layerSprites;
   }
 
-  setMapIndexes() {
-    this.#layers.forEach(layer => {
-      const indexInformation = this.#layerIndexes.find(layerIndexData => layerIndexData.name === layer.name);
-      if(indexInformation) {
-        layer.sprites.zIndex = indexInformation.index;
-      }
-    });
-  }
-
-  gatherCollidorObjects(collidorLayers) {
+  get collidors() {
+    if(this.#collidorObjects) return this.#collidorObjects;
     const collidorObjects = [];
-    collidorLayers.forEach(collidorLayer => {
-      const layer = this.#layers.find(layer => layer.name === collidorLayer.name);
-      layer.sprites.children.forEach(child => {
-        const collidorObject = {
-          x: child.x,
-          y: child.y,
-          width: child.width,
-          height: child.height
+
+    for(const layerName in this.#layersData) {
+      const layerData = this.#layersData[layerName];
+      if(!layerData.collidorMetaData) continue;
+
+      let column = 0;
+      let row = 0;
+      for(const tileGid of layerData.data) {
+        // TODO, make rectangles of contigous squares instead of many rectangles
+        if(tileGid > 0) {
+          const {width, height} = this.#spriteSheetSet.getSize(tileGid);
+          const x = (column * width);
+          const y = (row * height);
+          collidorObjects.push({x, y, width, height});
+
         }
 
-        collidorObjects.push(collidorObject);
-      });
-    });
+        column++;
+        if(column >= this.width) {
+          row++;
+          column = 0;
+        }
+      }
+    }
 
-    return collidorObjects;
+    this.#collidorObjects = collidorObjects;
+    return this.#collidorObjects;
   }
 
   get layers() {
-    return this.#layers.map(layer => layer.sprites);
+    return Object.values(this.#layersData).map(layer => layer.container);
   }
 
   get collidorObjects() {
