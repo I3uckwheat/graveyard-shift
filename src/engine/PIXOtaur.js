@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 
 import { PIXOentity } from "./PIXOentity";
-import { PIXOcollidor } from "./PIXOcollidor";
+import { PIXOcollidorSpace } from "./PIXOcollidorSpace";
 import { PIXOinput } from "./PIXOinput";
 import { PIXOtiledMap } from "./PIXOtiledMap";
 import { PIXOtileSet } from "./PIXOtileSet";
@@ -15,11 +15,12 @@ export class PIXOtaur {
 
   app;
 
-  constructor({width=400, height=400, spriteScale={x: 1, y: 1}}) {
+  constructor({width=400, height=400, spriteScale={x: 1, y: 1}, collidor}) {
     this.app = new PIXI.Application({ width, height });
     this.app.stage.sortableChildren = true;
     this.app.stage.scale.x = spriteScale.x;
     this.app.stage.scale.y = spriteScale.y;
+    this.collidor = collidor;
 
     this.#spritesContainer = new PIXI.Container();
     this.#spritesContainer.zIndex = 0;
@@ -37,6 +38,9 @@ export class PIXOtaur {
 
   update(dt, elapsed) {
     this.#entities.forEach(entity => entity.update(dt, elapsed));
+    if(this.collidor) {
+      this.collidor.update();
+    }
   }
 
   setMap(map) {
@@ -62,4 +66,4 @@ export class PIXOtaur {
   }
 }
 
-export { PIXOentity, PIXOcollidor, PIXOinput, PIXOtiledMap, PIXOtileSet, PIXOspriteSheetSet };
+export { PIXOentity, PIXOcollidorSpace, PIXOinput, PIXOtiledMap, PIXOtileSet, PIXOspriteSheetSet };

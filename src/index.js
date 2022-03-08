@@ -1,7 +1,6 @@
 import * as PIXI from "pixi.js";
-import { Layer } from "@pixi/layers";
 
-import { PIXOtaur, PIXOinput, PIXOtileSet, PIXOtiledMap, PIXOspriteSheetSet } from "./engine/PIXOtaur.js";
+import { PIXOtaur, PIXOinput, PIXOtileSet, PIXOtiledMap, PIXOspriteSheetSet, PIXOcollidorSpace } from "./engine/PIXOtaur.js";
 import { PlayerCharacter } from "./PlayerCharacter.js";
 
 import tileset from "./assets/spritesheets/16x16_tileset.png";
@@ -44,7 +43,11 @@ const map = new PIXOtiledMap({
     {name: "Above", index: 1},
     {name: "Floor", index: -1},
     {name: "Walls", index: -1}
-  ]
+  ], 
+
+  // adjust: x and y are how many pixels to move in either direction, w and h adjust the size from the right, not center
+  // So make sure the x and y are properly adjusted
+  colliderTileLayers = [{name: "Walls", adjust: {x: 0, y: 0, w: 0, h: 0}}] // For exporting collision boxes
 });
 
 

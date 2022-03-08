@@ -1,9 +1,8 @@
-export class PIXOcollidor {
+export class PIXOcollidorSpace {
   #dynamic = [];
   #static = [];
 
-  constructor() {
-  }
+  constructor() {}
 
   addDynamicCollidor({entity, offsetX, offsetY, width, height}) {
     this.#dynamic.push({entity, offsetX, offsetY, width, height});
@@ -11,5 +10,8 @@ export class PIXOcollidor {
 
   addStaticCollidor({x, y, width, height}) {
     this.#static.push({x, y, width, height});
+  }
+
+  update(dt) {
   }
 }
