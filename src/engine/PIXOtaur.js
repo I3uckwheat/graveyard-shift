@@ -38,9 +38,6 @@ export class PIXOtaur {
 
   update(dt, elapsed) {
     this.#entities.forEach(entity => entity.update(dt, elapsed));
-    if(this.collidor) {
-      this.collidor.update();
-    }
   }
 
   setMap(map) {

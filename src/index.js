@@ -47,13 +47,19 @@ const map = new PIXOtiledMap({
 
   // adjust: x and y are how many pixels to move in either direction, w and h adjust the size from the right, not center
   // So make sure the x and y are properly adjusted
-  colliderTileLayers = [{name: "Walls", adjust: {x: 0, y: 0, w: 0, h: 0}}] // For exporting collision boxes
+  colliderTileLayers: [{name: "Walls", adjust: {x: 0, y: 0, w: 0, h: 0}}] // For exporting collision boxes
 });
+
+const collidorSpace = new PIXOcollidorSpace();
+test.addEntity(collidorSpace);
+
+// collidorSpace.addStaticCollidors(map.collidorObjects);
 
 
 const characterInput = new PIXOinput();
 const player = spriteSheetSet.get(252);
 const character = new PlayerCharacter({PIXISprite: player, input: characterInput});
+collidorSpace.addDynamicCollidor(character);
 test.addEntity(character);
 test.setMap(map);
 
