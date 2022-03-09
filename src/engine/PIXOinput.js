@@ -1,6 +1,7 @@
 export class PIXOinput {
   isActive = true;
-  keys = {};
+  keysDown = {};
+  keysUp = {};
 
   constructor() {
     document.addEventListener('keydown', e => this.handleKeyDown(e));
@@ -9,11 +10,13 @@ export class PIXOinput {
 
  handleKeyDown(e) {
   const key = e.key;
-  this.keys[key] = true;
+  this.keysDown[key] = true;
+  this.keysUp[key] = false;
  }
 
  handleKeyUp(e) {
   const key = e.key;
-  this.keys[key] = false;
+  this.keysDown[key] = false;
+  this.keysUp[key] = true;
  }
 }
