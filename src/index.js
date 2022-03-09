@@ -61,7 +61,7 @@ collidorSpace.addStaticCollidors(map.collidors);
 
 const characterInput = new PIXOinput();
 const player = spriteSheetSet.get(252);
-const character = new PlayerCharacter({PIXISprite: player, input: characterInput});
+const character = new PlayerCharacter({PIXISprite: player, input: characterInput, x: 256, y: 256});
 collidorSpace.addDynamicCollidorsFromEntity(character);
 test.addEntity(character);
 test.setMap(map);

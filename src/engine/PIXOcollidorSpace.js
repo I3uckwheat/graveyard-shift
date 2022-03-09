@@ -58,7 +58,23 @@ export class PIXOcollidorSpace {
     for(const hitboxData of entity.components.collidor.hitboxes) {
       const collidor = new PIXOdynamicCollidorHitbox(entity, hitboxData.name, hitboxData.hitbox);
       this.#dynamicCollidors.push(collidor);
+      entity.components.collidor.getCollisions = () => this.getEntityCollisions(entity);
     }
+  }
+
+  getEntityCollisions(entity) {
+    const collidor = this.#dynamicCollidors.find(collidor => collidor.entity === entity);
+    const collisions = [];
+    for(const staticCollidor of this.#staticCollidors) {
+
+      const isColliding = this.isColliding(collidor.hitbox, staticCollidor.hitbox);
+
+      if(isColliding) {
+        collisions.push({collidorName: staticCollidor.collidorName, entity: null});
+      }
+    }
+
+    return collisions;
   }
 
   addStaticCollidor({x, y, width, height}) {
@@ -75,6 +91,8 @@ export class PIXOcollidorSpace {
     this.#hitboxRenders[0].y = this.#dynamicCollidors[0].entity.y + this.#dynamicCollidors[0].y;
 
     // Static vs dynamic collisions
+    // TODO: Only handle for dynamic collidors using events or something
+
     for(const dynamicCollidor of this.#dynamicCollidors) {
       for(const staticCollidor of this.#staticCollidors) {
         const entity = dynamicCollidor.entity;
@@ -83,6 +101,9 @@ export class PIXOcollidorSpace {
 
         if(isColliding) {
           entity.components.collidor.handler(staticCollidor.collidorName);
+          entity.components.collidor.isColliding = true;
+        } else {
+          entity.components.collidor.isColliding = false;
         }
       }
     }
