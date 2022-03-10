@@ -16,7 +16,7 @@ export class TypingModal {
     wrapper.innerHTML = `
     <div class="overlay-content">
       <h2>Type fast!</h2>
-      <img src=${undefined}/>
+      <!--<img src=${undefined}/>-->
       <p>afed fjdksl fiiif</p>
       <input></input>
     </div>
