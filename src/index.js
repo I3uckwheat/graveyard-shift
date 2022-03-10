@@ -58,6 +58,7 @@ const map = new PIXOtiledMap({
 
 const collidorSpace = new PIXOcollidorSpace();
 game.addComponent(collidorSpace);
+game.collidor = collidorSpace;
 
 collidorSpace.addStaticCollidors(map.collidors);
 

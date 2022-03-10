@@ -65,10 +65,16 @@ export class PIXOcollidorSpace {
 
     entity.components.collidor.getCollisions = () => this.getEntityCollisions(entity);
     entity.components.collidor.areaCollisions = this.areaCollisions.bind(this);
+    entity.components.collidor.collidorObject = collidor;
+  }
+
+  removeDynamicCollidorFromEntity(entity) {
+    this.#dynamicCollidors = this.#dynamicCollidors.filter(collidor => collidor !== entity.components.collidor.collidorObject);
   }
 
   getEntityCollisions(entity) {
     const collidor = this.#dynamicCollidors.find(collidor => collidor.entity === entity);
+    if(!collidor) return [];
     const collisions = [];
     for(const staticCollidor of this.#staticCollidors) {
 

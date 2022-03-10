@@ -40,8 +40,10 @@ export class PIXOtaur {
   removeComponent(entity) {
     if(entity.components.sprite) {
       this.#spritesContainer.removeChild(entity.components.sprite);
-      debugger;
     }
+
+    console.log(this.collidor);
+    this.collidor.removeDynamicCollidorFromEntity(entity);
     this.#entities = this.#entities.filter(entityListEntity => entityListEntity !== entity);
   }
 
