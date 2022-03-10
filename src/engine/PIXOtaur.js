@@ -32,7 +32,7 @@ export class PIXOtaur {
   addComponent(entity) {
     this.#entities.push(entity);
     entity.context = this;
-    if(entity.components.sprite) {
+    if(entity.components && entity.components.sprite) {
       this.#spritesContainer.addChild(entity.components.sprite);
     }
   }

@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 import { PIXOtaur, PIXOinput, PIXOtileSet, PIXOtiledMap, PIXOspriteSheetSet, PIXOcollidorSpace } from "./engine/PIXOtaur.js";
 import { PlayerCharacter } from "./PlayerCharacter.js";
 import { Enemy } from "./Enemy.js";
+import { RLBaseScene } from "./RLBaseScene.js";
 
 import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
@@ -10,7 +11,7 @@ import mapJSON from "./assets/maps/base.json";
 
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-const test = new PIXOtaur({width: 400 * 2, height: 400 * 2, spriteScale: {x: 2, y: 2}});
+const game = new PIXOtaur({width: 400 * 2, height: 400 * 2, spriteScale: {x: 2, y: 2}});
 
 const tilesetSheet = new PIXOtileSet({
   gidStart: 1,
@@ -55,23 +56,28 @@ const map = new PIXOtiledMap({
 });
 
 const collidorSpace = new PIXOcollidorSpace();
-test.addComponent(collidorSpace);
+game.addComponent(collidorSpace);
 
 collidorSpace.addStaticCollidors(map.collidors);
 
 
-const characterInput = new PIXOinput();
+const input = new PIXOinput();
 const playerSprite = spriteSheetSet.get(252);
-const character = new PlayerCharacter({PIXISprite: playerSprite, input: characterInput, x: 256, y: 256});
+const character = new PlayerCharacter({PIXISprite: playerSprite, input: input, x: 256, y: 256});
 collidorSpace.addDynamicCollidorsFromEntity(character);
-test.addComponent(character);
+game.addComponent(character);
 
 const enemySprite = spriteSheetSet.get(250);
 const enemy = new Enemy({PIXISprite: enemySprite, x: 320, y: 320});
 collidorSpace.addDynamicCollidorsFromEntity(enemy);
-test.addComponent(enemy);
+game.addComponent(enemy);
 
-test.setMap(map);
+game.setMap(map);
+
+const rlHandler = new RLBaseScene({player: character, input: input});
+rlHandler.addEnemy(enemy);
+
+game.addComponent(rlHandler);
+
 collidorSpace.showHitboxes(true);
-
-test.start();
+game.start();

@@ -13,7 +13,7 @@ export class Enemy extends PIXOentity {
     this.#unhandledCollisions.push({collidorName, entity});
   }
 
-  update(dt) {
+  takeTurn() {
     const lastPosition = {x: this.x, y: this.y};
     this.y -= 16;
 
@@ -22,6 +22,9 @@ export class Enemy extends PIXOentity {
       this.x = lastPosition.x;
       this.y = lastPosition.y;
     }
+  }
+
+  update(dt) {
 
     // if(this.#unhandledCollisions.length > 0) {
     //   for(const collision of this.#unhandledCollisions) {

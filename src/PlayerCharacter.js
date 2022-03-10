@@ -1,10 +1,10 @@
 import { PIXOentity } from "./engine/PIXOentity";
 
 export class PlayerCharacter extends PIXOentity {
-  needsMove = true;
+  turnTaken = false;
   #unhandledCollisions = [];
 
-  constructor({PIXISprite, x=0, y=0, input}) {
+  constructor({PIXISprite, x=0, y=0, input, rlHandler}) {
     super({PIXISprite, x, y, input});
     this.components.collidor.hitboxes = [{hitbox: {x: 0, y: 0, height: 16, width: 16}, name: "player"}];
     this.components.collidor.handler = this.collisionHandler;
@@ -15,35 +15,34 @@ export class PlayerCharacter extends PIXOentity {
   }
 
   update(dt) {
-    if(this.needsMove) {
+    if(!this.turnTaken) {
       const lastPosition = {x: this.x, y: this.y};
       if(this.components.input.keysDown["w"]) {
         this.y -= 16;
+        this.turnTaken = true;
       }
 
       if(this.components.input.keysDown["a"]) {
         this.x -= 16;
+        this.turnTaken = true;
       }
 
       if(this.components.input.keysDown["s"]) {
         this.y += 16;
+        this.turnTaken = true;
       }
 
       if(this.components.input.keysDown["d"]) {
         this.x += 16;
+        this.turnTaken = true;
       }
 
       const collisions = this.components.collidor.getCollisions();
       if(collisions.length > 0) {
         this.x = lastPosition.x;
         this.y = lastPosition.y;
-        this.needsMove = true;
+        this.turnTaken = false;
       }
-      this.needsMove = false;
-    }
-
-    if(!Object.values(this.components.input.keysDown).some(key => key)) {
-      this.needsMove = true;
     }
 
     // if(this.#unhandledCollisions.length > 0) {
