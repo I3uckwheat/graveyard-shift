@@ -25,14 +25,12 @@ export class Enemy extends PIXOentity {
     }
   }
 
+  encounterCompleteHandler(damage) {
+    this.health -= damage;
+    if(this.health < 0) alert('enemy ded');
+  }
+
   update(dt) {
-
-    // if(this.#unhandledCollisions.length > 0) {
-    //   for(const collision of this.#unhandledCollisions) {
-    //   }
-
-    //   this.#unhandledCollisions = [];
-    // }
   }
 
   render(dt) {

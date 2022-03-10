@@ -1,11 +1,9 @@
-import * as PIXI from 'pixi.js';
-
 export class TypingModal {
   onComplete;
   modal;
   typeTime = 4000;
   typed = '';
-  mistakes = false;
+  mistakes = 0;
 
   constructor({onComplete}) {
     this.onComplete = onComplete;
@@ -48,8 +46,9 @@ export class TypingModal {
     this.modal = wrapper;
 
 
-    const timeout = setTimeout(() => {
+    setTimeout(() => {
       this.onComplete({
+        entity: entity,
         mistakes: this.mistakes, 
         charactersTyped: this.typed, 
         charactersToType: words

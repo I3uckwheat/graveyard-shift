@@ -4,7 +4,7 @@ import { PIXOtaur, PIXOinput, PIXOtileSet, PIXOtiledMap, PIXOspriteSheetSet, PIX
 import { PlayerCharacter } from "./PlayerCharacter.js";
 import { Enemy } from "./Enemy.js";
 import { RLBaseScene } from "./RLBaseScene.js";
-import { TypingModal } from "./TypingModal.js";
+import { WelcomeScreen } from "./WelcomeScreen.js";
 
 import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
@@ -80,4 +80,5 @@ rlHandler.addEnemy(enemy);
 
 game.addComponent(rlHandler);
 
-game.start();
+const welcome = new WelcomeScreen(() => game.start());
+welcome.show();

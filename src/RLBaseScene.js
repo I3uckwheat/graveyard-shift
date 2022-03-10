@@ -32,8 +32,11 @@ export class RLBaseScene {
   onTypingComplete(results) {
     console.log(results);
     if(results.mistakes > 0) {
-      this.player.lostEncounter(results.mistakes * 300);
+      this.player.lostEncounter(results.mistakes * 5); // TODO: fair damage
     }
+
+    const correct = results.charactersTyped.length - results.mistakes;
+    results.entity.entity.encounterCompleteHandler(correct * 4); 
     setTimeout(() => this.#encounterInProgress = false, 1000);
   }
   
