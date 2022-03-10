@@ -36,7 +36,8 @@ export class RLBaseScene {
     }
 
     const correct = results.charactersTyped.length - results.mistakes;
-    results.entity.entity.encounterCompleteHandler(correct * 4); 
+    // results.entity.entity.encounterCompleteHandler(correct * 4); 
+    results.entity.entity.encounterCompleteHandler(3000); 
     setTimeout(() => this.#encounterInProgress = false, 1000);
   }
   

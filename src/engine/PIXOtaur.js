@@ -37,6 +37,14 @@ export class PIXOtaur {
     }
   }
 
+  removeComponent(entity) {
+    if(entity.components.sprite) {
+      this.#spritesContainer.removeChild(entity.components.sprite);
+      debugger;
+    }
+    this.#entities = this.#entities.filter(entityListEntity => entityListEntity !== entity);
+  }
+
   update(dt, elapsed) {
     this.#entities.forEach(entity => entity.update(dt, elapsed));
   }
@@ -48,7 +56,12 @@ export class PIXOtaur {
   }
 
   update(dt, elapsed) {
-    this.#entities.forEach(entity => entity.update(dt, elapsed));
+    this.#entities.forEach(entity => {
+      if(entity.dead) {
+        return this.removeComponent(entity);
+      }
+      entity.update(dt, elapsed);
+    });
   }
 
   render(dt, elapsed) {

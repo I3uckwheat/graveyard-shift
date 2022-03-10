@@ -3,10 +3,11 @@ import { PIXOentity } from "./engine/PIXOentity";
 export class Enemy extends PIXOentity {
   #unhandledCollisions = [];
   health = 100;
+  dead = false;
 
   constructor({PIXISprite, x=0, y=0, input}) {
     super({PIXISprite, x, y, input});
-    this.components.collidor.hitboxes = [{hitbox: {x: 0, y: 0, height: 16, width: 16}, name: "enemy"}];
+    this.components.collidor.hitbox = {box: {x: 0, y: 0, height: 16, width: 16}, name: "enemy"};
     this.components.collidor.handler = this.collisionHandler;
   }
 
@@ -27,7 +28,7 @@ export class Enemy extends PIXOentity {
 
   encounterCompleteHandler(damage) {
     this.health -= damage;
-    if(this.health < 0) alert('enemy ded');
+    if(this.health < 0) this.dead = true;
   }
 
   update(dt) {

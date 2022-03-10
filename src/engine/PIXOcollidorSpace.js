@@ -55,10 +55,14 @@ export class PIXOcollidorSpace {
 
   // x and y are adjustments from the entity position
   addDynamicCollidorsFromEntity(entity) {
-    for(const hitboxData of entity.components.collidor.hitboxes) {
-      const collidor = new PIXOdynamicCollidorHitbox(entity, hitboxData.name, hitboxData.hitbox);
-      this.#dynamicCollidors.push(collidor);
+    const hitbox = {
+      name: entity.components.collidor.hitbox.name,
+      box: entity.components.collidor.hitbox.box,
     }
+
+    const collidor = new PIXOdynamicCollidorHitbox(entity, hitbox.name, hitbox.box);
+    this.#dynamicCollidors.push(collidor);
+
     entity.components.collidor.getCollisions = () => this.getEntityCollisions(entity);
     entity.components.collidor.areaCollisions = this.areaCollisions.bind(this);
   }

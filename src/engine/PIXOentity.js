@@ -11,7 +11,7 @@ export class PIXOentity {
     this.components.input = input;
 
     this.components.collidor = {
-      hitboxes: [{hitbox: {x: 0, y: 0, width: 0, height: 0}, name: "hitbox"}],
+      hitbox: {box: {x: 0, y: 0, width: 0, height: 0}, name: "hitbox"},
       handler: () => {},
       getCollisions: () => [],
     }
