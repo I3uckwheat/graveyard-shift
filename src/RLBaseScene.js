@@ -1,9 +1,13 @@
+import { TypingModal } from "./TypingModal";
+
 export class RLBaseScene {
   player;
   enemies = [];
   input;
   collidorSpace;
+  #encounterInProgress = false;
   #enemiesNeedTurns = false;
+  #typingModal;
 
   constructor({player, enemies=[], input, collidorSpace}) {
     this.player = player;
@@ -13,6 +17,8 @@ export class RLBaseScene {
     this.enemies = enemies;
     this.input = input;
     this.collidorSpace = collidorSpace;
+
+    this.#typingModal = new TypingModal({onComplete: this.onTypingComplete.bind(this)});
   }
 
   addPlayer(playerEntity) {
@@ -22,8 +28,14 @@ export class RLBaseScene {
   addEnemy(enemyEntity) {
     this.enemies.push(enemyEntity);
   }
+
+  onTypingComplete(results) {
+    console.log(results);
+    this.#encounterInProgress = false;
+  }
   
   update(dt) {
+    if(this.#encounterInProgress) return;
     if(this.player.turnTaken) { // Enemies take turns
       if(this.#enemiesNeedTurns) {
         this.enemies.forEach(enemy => enemy.takeTurn());
@@ -38,7 +50,8 @@ export class RLBaseScene {
   }
 
   encounterHandler(collision) {
-    debugger;
+    this.#encounterInProgress = true;
+    this.#typingModal.drawElements();
     console.log("OMG an encounter with", collision.collidorName);
   }
 

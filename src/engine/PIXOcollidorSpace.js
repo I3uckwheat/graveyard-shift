@@ -88,10 +88,11 @@ export class PIXOcollidorSpace {
   }
 
   update(dt) {
-    this.#dynamicCollidors.forEach((collidor, index) => {
-      this.#hitboxRenders[index].x = collidor.entity.x + collidor.x;
-      this.#hitboxRenders[index].y = collidor.entity.y + collidor.y;
-    })
+    // Display hitboxes
+    // this.#dynamicCollidors.forEach((collidor, index) => {
+    //   this.#hitboxRenders[index].x = collidor.entity.x + collidor.x;
+    //   this.#hitboxRenders[index].y = collidor.entity.y + collidor.y;
+    // })
 
     // Static vs dynamic collisions
     // TODO: Only handle for dynamic collidors using events or something

@@ -17,22 +17,22 @@ export class PlayerCharacter extends PIXOentity {
   update(dt) {
     if(!this.turnTaken) {
       const lastPosition = {x: this.x, y: this.y};
-      if(this.components.input.keysDown["w"]) {
+      if(this.components.input.keysDown["w"] || this.components.input.keysDown["k"]) {
         this.y -= 16;
         this.turnTaken = true;
       }
 
-      if(this.components.input.keysDown["a"]) {
+      if(this.components.input.keysDown["a"] || this.components.input.keysDown["h"]) {
         this.x -= 16;
         this.turnTaken = true;
       }
 
-      if(this.components.input.keysDown["s"]) {
+      if(this.components.input.keysDown["s"] || this.components.input.keysDown["j"]) {
         this.y += 16;
         this.turnTaken = true;
       }
 
-      if(this.components.input.keysDown["d"]) {
+      if(this.components.input.keysDown["d"] || this.components.input.keysDown["l"]) {
         this.x += 16;
         this.turnTaken = true;
       }
@@ -46,7 +46,9 @@ export class PlayerCharacter extends PIXOentity {
 
       if(movementCollisions.length > 0) {
         for(const collision of movementCollisions) {
-          this.components.rlController.encounterHandler(collision);
+          if(collision.collidorName !== "PIXOstaticCollidor") {
+            this.components.rlController.encounterHandler(collision);
+          }
         }
       }
 
@@ -57,13 +59,6 @@ export class PlayerCharacter extends PIXOentity {
         this.turnTaken = false;
       }
     }
-
-    // if(this.#unhandledCollisions.length > 0) {
-    //   for(const collision of this.#unhandledCollisions) {
-    //   }
-
-    //   this.#unhandledCollisions = [];
-    // }
   }
 
   render(dt) {
