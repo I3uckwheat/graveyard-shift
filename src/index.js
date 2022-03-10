@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 
 import { PIXOtaur, PIXOinput, PIXOtileSet, PIXOtiledMap, PIXOspriteSheetSet, PIXOcollidorSpace } from "./engine/PIXOtaur.js";
 import { PlayerCharacter } from "./PlayerCharacter.js";
+import { Enemy } from "./Enemy.js";
 
 import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
@@ -54,16 +55,22 @@ const map = new PIXOtiledMap({
 });
 
 const collidorSpace = new PIXOcollidorSpace();
-test.addEntity(collidorSpace);
+test.addComponent(collidorSpace);
 
 collidorSpace.addStaticCollidors(map.collidors);
 
 
 const characterInput = new PIXOinput();
-const player = spriteSheetSet.get(252);
-const character = new PlayerCharacter({PIXISprite: player, input: characterInput, x: 256, y: 256});
+const playerSprite = spriteSheetSet.get(252);
+const character = new PlayerCharacter({PIXISprite: playerSprite, input: characterInput, x: 256, y: 256});
 collidorSpace.addDynamicCollidorsFromEntity(character);
-test.addEntity(character);
+test.addComponent(character);
+
+const enemySprite = spriteSheetSet.get(250);
+const enemy = new Enemy({PIXISprite: enemySprite, x: 320, y: 320});
+collidorSpace.addDynamicCollidorsFromEntity(enemy);
+test.addComponent(enemy);
+
 test.setMap(map);
 collidorSpace.showHitboxes(true);
 

@@ -29,7 +29,7 @@ export class PIXOtaur {
     document.body.appendChild(this.app.view);
   }
 
-  addEntity(entity) {
+  addComponent(entity) {
     this.#entities.push(entity);
     entity.context = this;
     if(entity.components.sprite) {

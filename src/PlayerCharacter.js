@@ -6,7 +6,7 @@ export class PlayerCharacter extends PIXOentity {
 
   constructor({PIXISprite, x=0, y=0, input}) {
     super({PIXISprite, x, y, input});
-    this.components.collidor.hitboxes = [{hitbox: {x: 0, y: 0, height: 16, width: 16}, name: "player-feet"}];
+    this.components.collidor.hitboxes = [{hitbox: {x: 0, y: 0, height: 16, width: 16}, name: "player"}];
     this.components.collidor.handler = this.collisionHandler;
   }
 
