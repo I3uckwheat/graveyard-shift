@@ -74,7 +74,7 @@ game.addComponent(enemy);
 
 game.setMap(map);
 
-const rlHandler = new RLBaseScene({player: character, input: input});
+const rlHandler = new RLBaseScene({player: character, input: input, collidorSpace});
 rlHandler.addEnemy(enemy);
 
 game.addComponent(rlHandler);

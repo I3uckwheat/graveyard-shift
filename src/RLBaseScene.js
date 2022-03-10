@@ -2,12 +2,17 @@ export class RLBaseScene {
   player;
   enemies = [];
   input;
+  collidorSpace;
   #enemiesNeedTurns = false;
 
-  constructor({player, enemies=[], input}) {
+  constructor({player, enemies=[], input, collidorSpace}) {
     this.player = player;
+    this.player.components.rlController = {};
+    this.player.components.rlController.encounterHandler = this.encounterHandler.bind(this);
+
     this.enemies = enemies;
     this.input = input;
+    this.collidorSpace = collidorSpace;
   }
 
   addPlayer(playerEntity) {
@@ -30,6 +35,11 @@ export class RLBaseScene {
         this.#enemiesNeedTurns = true;
       }
     }
+  }
+
+  encounterHandler(collision) {
+    debugger;
+    console.log("OMG an encounter with", collision.collidorName);
   }
 
   render() {}

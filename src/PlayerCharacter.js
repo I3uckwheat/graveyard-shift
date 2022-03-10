@@ -37,6 +37,19 @@ export class PlayerCharacter extends PIXOentity {
         this.turnTaken = true;
       }
 
+      const movementCollisions = this.components.collidor.areaCollisions({
+        x: this.x,
+        y: this.y,
+        width: this.components.collidor.hitboxes[0].hitbox.width,
+        height: this.components.collidor.hitboxes[0].hitbox.height
+      }, this);
+
+      if(movementCollisions.length > 0) {
+        for(const collision of movementCollisions) {
+          this.components.rlController.encounterHandler(collision);
+        }
+      }
+
       const collisions = this.components.collidor.getCollisions();
       if(collisions.length > 0) {
         this.x = lastPosition.x;

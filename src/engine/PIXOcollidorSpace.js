@@ -58,8 +58,9 @@ export class PIXOcollidorSpace {
     for(const hitboxData of entity.components.collidor.hitboxes) {
       const collidor = new PIXOdynamicCollidorHitbox(entity, hitboxData.name, hitboxData.hitbox);
       this.#dynamicCollidors.push(collidor);
-      entity.components.collidor.getCollisions = () => this.getEntityCollisions(entity);
     }
+    entity.components.collidor.getCollisions = () => this.getEntityCollisions(entity);
+    entity.components.collidor.areaCollisions = this.areaCollisions.bind(this);
   }
 
   getEntityCollisions(entity) {
@@ -87,8 +88,10 @@ export class PIXOcollidorSpace {
   }
 
   update(dt) {
-    this.#hitboxRenders[0].x = this.#dynamicCollidors[0].entity.x + this.#dynamicCollidors[0].x;
-    this.#hitboxRenders[0].y = this.#dynamicCollidors[0].entity.y + this.#dynamicCollidors[0].y;
+    this.#dynamicCollidors.forEach((collidor, index) => {
+      this.#hitboxRenders[index].x = collidor.entity.x + collidor.x;
+      this.#hitboxRenders[index].y = collidor.entity.y + collidor.y;
+    })
 
     // Static vs dynamic collisions
     // TODO: Only handle for dynamic collidors using events or something
@@ -119,16 +122,41 @@ export class PIXOcollidorSpace {
     return false;
   }
 
+  areaCollisions(hitbox, entity) {
+    const collisions = [];
+    for(const staticCollidor of this.#staticCollidors) {
+
+      const isColliding = this.isColliding(hitbox, staticCollidor.hitbox);
+
+      if(isColliding) {
+        collisions.push({collidorName: staticCollidor.collidorName, entity: null});
+      }
+    }
+
+    for(const dynamicCollidor of this.#dynamicCollidors) {
+      if(dynamicCollidor.entity === entity) continue;
+      const isColliding = this.isColliding(hitbox, dynamicCollidor.hitbox);
+
+      if(isColliding) {
+        collisions.push({collidorName: dynamicCollidor.collidorName, entity: dynamicCollidor.entity});
+      }
+    }
+
+    return collisions;
+  }
+
   showHitboxes(value) {
     if(value) {
       this.showHitboxes = value;
-      const hitbox = new PIXI.Graphics();
-      hitbox.lineStyle(1, 0xFF000);
-      hitbox.drawRect(0, 0, this.#dynamicCollidors[0].width, this.#dynamicCollidors[0].height);
-      hitbox.zIndex = 9999;
+      this.#dynamicCollidors.forEach((collidor, index) => {
+        const hitbox = new PIXI.Graphics();
+        hitbox.lineStyle(1, 0xFF000);
+        hitbox.drawRect(0, 0, collidor.width, collidor.height);
+        hitbox.zIndex = 9999;
 
-      this.#hitboxRenders.push(hitbox);
-      this.context.app.stage.addChild(hitbox);
+        this.#hitboxRenders.push(hitbox);
+        this.context.app.stage.addChild(hitbox);
+      })
 
       for(const staticCollidor of this.#staticCollidors) {
         const hitbox = new PIXI.Graphics();
