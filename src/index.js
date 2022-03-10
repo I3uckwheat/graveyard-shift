@@ -67,7 +67,7 @@ const character = new PlayerCharacter({PIXISprite: playerSprite, input: input, x
 collidorSpace.addDynamicCollidorsFromEntity(character);
 game.addComponent(character);
 
-const enemySprite = spriteSheetSet.get(250);
+const enemySprite = spriteSheetSet.get(195);
 const enemy = new Enemy({PIXISprite: enemySprite, x: 320, y: 320});
 collidorSpace.addDynamicCollidorsFromEntity(enemy);
 game.addComponent(enemy);
