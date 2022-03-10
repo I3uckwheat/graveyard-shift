@@ -51,8 +51,7 @@ export class RLBaseScene {
 
   encounterHandler(collision) {
     this.#encounterInProgress = true;
-    this.#typingModal.drawElements();
-    console.log("OMG an encounter with", collision.collidorName);
+    this.#typingModal.runTypingEncounter();
   }
 
   render() {}

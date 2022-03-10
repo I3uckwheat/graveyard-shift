@@ -9,7 +9,7 @@ export class TypingModal {
     document.addEventListener('click', this.documentClickHandler.bind(this));
   }
 
-  drawElements(entity) {
+  runTypingEncounter(entity) {
     if(this.modal) return;
     const wrapper = document.createElement('div');
     wrapper.classList.add('overlay');
