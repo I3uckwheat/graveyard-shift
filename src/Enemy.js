@@ -2,6 +2,7 @@ import { PIXOentity } from "./engine/PIXOentity";
 
 export class Enemy extends PIXOentity {
   #unhandledCollisions = [];
+  health = 100;
 
   constructor({PIXISprite, x=0, y=0, input}) {
     super({PIXISprite, x, y, input});

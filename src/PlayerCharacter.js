@@ -3,6 +3,8 @@ import { PIXOentity } from "./engine/PIXOentity";
 export class PlayerCharacter extends PIXOentity {
   turnTaken = false;
   #unhandledCollisions = [];
+  health = 300;
+  lastPosition;
 
   constructor({PIXISprite, x=0, y=0, input, rlHandler}) {
     super({PIXISprite, x, y, input});
@@ -16,7 +18,7 @@ export class PlayerCharacter extends PIXOentity {
 
   update(dt) {
     if(!this.turnTaken) {
-      const lastPosition = {x: this.x, y: this.y};
+      this.lastPosition = {x: this.x, y: this.y};
       if(this.components.input.keysDown["w"] || this.components.input.keysDown["k"]) {
         this.y -= 16;
         this.turnTaken = true;
@@ -54,11 +56,23 @@ export class PlayerCharacter extends PIXOentity {
 
       const collisions = this.components.collidor.getCollisions();
       if(collisions.length > 0) {
-        this.x = lastPosition.x;
-        this.y = lastPosition.y;
+        this.x = this.lastPosition.x;
+        this.y = this.lastPosition.y;
         this.turnTaken = false;
       }
     }
+  }
+
+  lostEncounter = (damage) => {
+    this.health -= damage;
+    if(this.health < 0) alert("ded");
+    this.x = this.lastPosition.x;
+    this.y = this.lastPosition.y;
+  }
+
+  wonEncounter(damage) {
+    this.health - damage;
+    if(this.health < 0) alert("ded");
   }
 
   render(dt) {

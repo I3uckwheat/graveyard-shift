@@ -31,6 +31,9 @@ export class RLBaseScene {
 
   onTypingComplete(results) {
     console.log(results);
+    if(results.mistakes > 0) {
+      this.player.lostEncounter(results.mistakes * 300);
+    }
     setTimeout(() => this.#encounterInProgress = false, 1000);
   }
   
@@ -51,7 +54,7 @@ export class RLBaseScene {
 
   encounterHandler(collision) {
     this.#encounterInProgress = true;
-    this.#typingModal.runTypingEncounter();
+    const result = this.#typingModal.runTypingEncounter({entity: collision.entity});
   }
 
   render() {}
