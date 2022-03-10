@@ -31,7 +31,7 @@ export class RLBaseScene {
 
   onTypingComplete(results) {
     console.log(results);
-    this.#encounterInProgress = false;
+    setTimeout(() => this.#encounterInProgress = false, 1000);
   }
   
   update(dt) {

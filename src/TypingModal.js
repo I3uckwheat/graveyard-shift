@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+
 export class TypingModal {
   onComplete;
   modal;
@@ -7,8 +9,8 @@ export class TypingModal {
     document.addEventListener('click', this.documentClickHandler.bind(this));
   }
 
-  drawElements() {
-    console.log('draw');
+  drawElements(entity) {
+    if(this.modal) return;
     const wrapper = document.createElement('div');
     wrapper.classList.add('overlay');
     wrapper.innerHTML = `
@@ -26,11 +28,16 @@ export class TypingModal {
     input.focus();
 
     this.modal = wrapper;
+
+    setTimeout(() => {
+      this.onComplete({madeMistake: false, timeLeft: 33, charactersTyped: "jkl;hhh", charactersToType: "jkl;hhh fff eeee"});
+      this.removeElements();
+    }, 4000);
   }
 
   removeElements() {
-    console.log('remove');
     document.body.removeChild(this.modal);
+    this.modal = undefined;
   }
 
   documentClickHandler(e) {
