@@ -5,7 +5,6 @@ export class WelcomeScreen {
   startCallback;
 
   constructor(startCallback) {
-    console.log(startCallback);
     this.startCallback = startCallback;
   }
 

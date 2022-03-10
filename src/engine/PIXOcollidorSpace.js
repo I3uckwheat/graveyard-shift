@@ -75,6 +75,7 @@ export class PIXOcollidorSpace {
   getEntityCollisions(entity) {
     const collidor = this.#dynamicCollidors.find(collidor => collidor.entity === entity);
     if(!collidor) return [];
+
     const collisions = [];
     for(const staticCollidor of this.#staticCollidors) {
 
