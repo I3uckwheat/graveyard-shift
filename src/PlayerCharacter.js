@@ -66,14 +66,20 @@ export class PlayerCharacter extends PIXOentity {
 
   lostEncounter = (damage) => {
     this.health -= damage;
-    if(this.health < 0) alert("ded");
     this.x = this.lastPosition.x;
     this.y = this.lastPosition.y;
+    if(this.health < 0) {
+      alert("You've died! Press 'ok' to restart");
+      window.location.reload();
+    }
   }
 
   wonEncounter(damage) {
     this.health - damage;
-    if(this.health < 0) alert("ded");
+    if(this.health < 0) {
+      alert("You've died! Press 'ok' to restart");
+      window.location.reload();
+    }
   }
 
   render(dt) {

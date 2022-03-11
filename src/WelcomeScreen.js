@@ -12,10 +12,8 @@ export class WelcomeScreen {
     const wrapper = document.createElement('div');
     wrapper.classList.add('overlay');
     wrapper.innerHTML = `
-      <div class="overlay-content">
-        <img src=${TitleScreen} />
-        <p>Press space to continue</p>
-      </div>
+      <img src=${TitleScreen} />
+      <p>Press Space to continue</p>
     `;
 
     this.screen = wrapper;

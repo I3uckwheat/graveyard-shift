@@ -8,6 +8,7 @@ export class RLBaseScene {
   #encounterInProgress = false;
   #enemiesNeedTurns = false;
   #typingModal;
+  #enemiesKilled = 0;
 
   constructor({player, enemies=[], input, collidorSpace}) {
     this.player = player;
@@ -36,8 +37,10 @@ export class RLBaseScene {
     }
 
     const correct = results.charactersTyped.length - results.mistakes;
-    // results.entity.entity.encounterCompleteHandler(correct * 4); 
-    results.entity.entity.encounterCompleteHandler(3000); 
+    results.entity.entity.encounterCompleteHandler(correct * 4); 
+    if(results.entity.entity.dead === true) {
+      this.#enemiesKilled += 1;
+    }
     setTimeout(() => this.#encounterInProgress = false, 1000);
   }
   
