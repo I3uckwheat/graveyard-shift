@@ -6,9 +6,13 @@ export class PlayerCharacter extends PIXOentity {
   health = 300;
   lastPosition;
   dead = false;
+  #healthElement;
 
   constructor({PIXISprite, x=0, y=0, input, rlHandler}) {
     super({PIXISprite, x, y, input});
+    this.#healthElement = document.createElement('p');
+    document.body.appendChild(this.#healthElement);
+
     this.components.collidor.hitbox = {box: {x: 0, y: 0, height: 16, width: 16}, name: "player"};
     this.components.collidor.handler = this.collisionHandler;
   }
@@ -18,6 +22,7 @@ export class PlayerCharacter extends PIXOentity {
   }
 
   update(dt) {
+    this.#healthElement.innerText = `Health: ${this.health}`
     if(!this.turnTaken) {
       this.lastPosition = {x: this.x, y: this.y};
       if(this.components.input.keysDown["w"] || this.components.input.keysDown["k"]) {
