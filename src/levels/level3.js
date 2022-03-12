@@ -4,6 +4,10 @@ import { Enemy } from "../Enemy.js";
 import { RLBaseScene } from "../RLBaseScene.js";
 import { WelcomeScreen } from "../WelcomeScreen.js";
 
+import { Enemy } from "../Enemy.js";
+import { Enemy2 } from "../Enemy2.js";
+import { Enemy3 } from "../Enemy3.js";
+
 import mapJSON from "../assets/maps/map3.json";
 
 function load(game, spriteSheetSet) {
@@ -38,14 +42,38 @@ function load(game, spriteSheetSet) {
   game.addComponent(character);
 
   const enemySprite = spriteSheetSet.get(195);
-  const enemy = new Enemy({PIXISprite: enemySprite, x: 320, y: 320});
+  const enemy = new Enemy({PIXISprite: enemySprite, x: 304, y: 240});
   collidorSpace.addDynamicCollidorsFromEntity(enemy);
   game.addComponent(enemy);
+
+  const enemySprite2 = spriteSheetSet.get(180);
+  const enemy2 = new Enemy2({PIXISprite: enemySprite2, x: 32, y: 320});
+  collidorSpace.addDynamicCollidorsFromEntity(enemy2);
+  game.addComponent(enemy2);
+
+  const enemySprite4 = spriteSheetSet.get(196);
+  const enemy4 = new Enemy3({PIXISprite: enemySprite4, x: 128, y: 240});
+  collidorSpace.addDynamicCollidorsFromEntity(enemy4);
+  game.addComponent(enemy4);
+
+  const enemySprite3 = spriteSheetSet.get(198);
+  const enemy3 = new Enemy({PIXISprite: enemySprite3, x: 320, y: 112});
+  collidorSpace.addDynamicCollidorsFromEntity(enemy3);
+  game.addComponent(enemy3);
+
+  const enemySprite5 = spriteSheetSet.get(196);
+  const enemy5 = new Enemy3({PIXISprite: enemySprite5, x: 112, y: 192});
+  collidorSpace.addDynamicCollidorsFromEntity(enemy5);
+  game.addComponent(enemy5);
 
   game.setMap(map);
 
   const rlHandler = new RLBaseScene({player: character, input: input, collidorSpace, game, levelHealth: 450});
   rlHandler.addEnemy(enemy);
+  rlHandler.addEnemy(enemy2);
+  rlHandler.addEnemy(enemy3);
+  rlHandler.addEnemy(enemy4);
+  rlHandler.addEnemy(enemy5);
 
   game.addComponent(rlHandler);
 

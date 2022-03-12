@@ -6,6 +6,7 @@ import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
 
 import level1 from "./levels/level1";
+import level3 from "./levels/level3";
 
 import music from "url:./assets/music.mp3";
 
@@ -78,4 +79,3 @@ const spriteSheetSet = new PIXOspriteSheetSet([
 ]);
 
 level1.load(game, spriteSheetSet);
-// level2.load(game, spriteSheetSet);
