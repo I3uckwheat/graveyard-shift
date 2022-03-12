@@ -3,6 +3,9 @@
 
 <head>
   <script src="index.js" defer type="module"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -10,6 +13,7 @@
     body {
       margin: 0;
       box-sizing: border-box;
+      font-family: 'Press Start 2P', cursive;
     }
 
     .overlay {
@@ -24,6 +28,7 @@
 
     .overlay-content {
       margin: 40px;
+      margin-top: 60px;
       height: 350px;
       border: 8px dashed black;
       display: flex;
@@ -39,6 +44,35 @@
 
     .incorrect {
       color: red;
+    }
+
+    .words {
+      background-color: white;
+      padding: 10px;
+    }
+
+    #health {
+      position: absolute;
+      font-size: 20px;
+      top: 0px;
+      left: 12px;
+      color: white;
+    }
+
+    #levelHealth {
+      position: absolute;
+      font-size: 20px;
+      top: 0px;
+      right: 100px;
+      color: white;
+    }
+
+    #press-space {
+      position: absolute;
+      font-size: 40px;
+      bottom: 280px;
+      left: 12px;
+      color: white;
     }
   </style>
 

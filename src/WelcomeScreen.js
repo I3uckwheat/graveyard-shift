@@ -13,7 +13,7 @@ export class WelcomeScreen {
     wrapper.classList.add('overlay');
     wrapper.innerHTML = `
       <img src=${TitleScreen} />
-      <p>Press Space to continue</p>
+      <p id="press-space">Press Space to continue</p>
     `;
 
     this.screen = wrapper;
