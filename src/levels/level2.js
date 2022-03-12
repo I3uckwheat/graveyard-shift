@@ -4,7 +4,7 @@ import { Enemy } from "../Enemy.js";
 import { RLBaseScene } from "../RLBaseScene.js";
 import { WelcomeScreen } from "../WelcomeScreen.js";
 
-import mapJSON from "../assets/maps/base.json";
+import mapJSON from "../assets/maps/map2.json";
 
 function load(game, spriteSheetSet) {
   const map = new PIXOtiledMap({

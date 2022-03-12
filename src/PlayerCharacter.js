@@ -10,8 +10,14 @@ export class PlayerCharacter extends PIXOentity {
 
   constructor({PIXISprite, x=0, y=0, input, rlHandler}) {
     super({PIXISprite, x, y, input});
-    this.#healthElement = document.createElement('p');
-    document.body.appendChild(this.#healthElement);
+    const healthElement = document.querySelector("#health");
+    if(!healthElement) {
+      this.#healthElement = document.createElement('p');
+      document.body.appendChild(this.#healthElement);
+      this.#healthElement.id = "health";
+    } else {
+      this.#healthElement = healthElement;
+    }
 
     this.components.collidor.hitbox = {box: {x: 0, y: 0, height: 16, width: 16}, name: "player"};
     this.components.collidor.handler = this.collisionHandler;

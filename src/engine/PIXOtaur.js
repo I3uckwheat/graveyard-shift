@@ -75,6 +75,9 @@ export class PIXOtaur {
       this.removeComponent(entity);
     });
     this.#entities = [];
+    this.#map.layers.forEach(layer => {
+      this.app.stage.removeChild(layer);
+    });
 
     this.app.stage.removeChild(this.#spritesContainer);
     this.#spritesContainer = new PIXI.Container();
