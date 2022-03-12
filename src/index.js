@@ -42,8 +42,10 @@ let currentDate;
 game.onStart = () => {
   mute.classList.add('show');
   audio.play();
-  startedDate = new Date();
-  currentDate = startedDate;
+  if(!startedDate) {
+    startedDate = new Date();
+    currentDate = startedDate;
+  }
 };
 
 game.onUpdate = (dt, elapsed) => {

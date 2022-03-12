@@ -2,15 +2,16 @@
   "name": "coffin-space",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "watch-build": "parcel src/index.html --dist-dir dist -p 3000",
+    "build": "parcel build src/index.html --dist-dir dist --public-url ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@pixi/layers": "^1.0.11",
+    "@swc/helpers": "^0.3.6",
     "browser-sync": "^2.27.7",
     "parcel": "^2.3.2",
     "pixi.js": "^6.2.2"
