@@ -1,17 +1,18 @@
 import { PIXOentity } from "./engine/PIXOentity";
 
-export class Enemy extends PIXOentity {
+export class Enemy2 extends PIXOentity {
   #unhandledCollisions = [];
   dead = false;
   direction = 'left';
   directions = ["up", "down", "left", "right"];
+  steps = 0;
 
   constructor({PIXISprite, x=0, y=0, input}) {
     super({PIXISprite, x, y, input});
     this.components.collidor.hitbox = {box: {x: 0, y: 0, height: 16, width: 16}, name: "enemy"};
     this.components.collidor.handler = this.collisionHandler;
-    this.health = 100;
-    this.startingHealth = 100;
+    this.health = 190;
+    this.startingHealth = 190;
     this.direction = this.chooseDirection();
   }
 
@@ -36,14 +37,15 @@ export class Enemy extends PIXOentity {
         break;
     }
 
-    const changeDirections = Math.random() > 0.80;
-    if(changeDirections) {
+    if(this.steps > 2) {
       this.direction = this.chooseDirection();
+      this.steps = 0;
     }
 
     const collisions = this.components.collidor.getCollisions();
     if(collisions.length > 0) {
       this.direction = this.chooseDirection();
+      this.steps = 0;
 
       this.x = lastPosition.x;
       this.y = lastPosition.y;

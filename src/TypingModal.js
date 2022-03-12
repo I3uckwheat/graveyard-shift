@@ -98,11 +98,13 @@ export class TypingModal {
     let wordCount = Math.floor(health / 10);
     if(wordCount > 5) {
       wordCount = 5;
+    } else if(wordCount < 1) {
+      wordCount = 1;
     }
 
     const returnValue = [];
     for(let i = 0; i < wordCount; i++) {
-      returnValue.push(this.words[Math.floor(Math.random() * this.words.length - 1)]);
+      returnValue.push(this.words[Math.floor(Math.random() * this.words.length)]);
     }
 
     return returnValue.join(' ');

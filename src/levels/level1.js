@@ -5,7 +5,7 @@ import { RLBaseScene } from "../RLBaseScene.js";
 import { WelcomeScreen } from "../WelcomeScreen.js";
 
 import mapJSON from "../assets/maps/base.json";
-import level2 from "./level2.js";;
+import level2 from "./level2.js";
 
 function load(game, spriteSheetSet) {
   const map = new PIXOtiledMap({
@@ -34,7 +34,7 @@ function load(game, spriteSheetSet) {
 
   const input = new PIXOinput();
   const playerSprite = spriteSheetSet.get(252);
-  const character = new PlayerCharacter({PIXISprite: playerSprite, input: input, x: 256, y: 256});
+  const character = new PlayerCharacter({PIXISprite: playerSprite, input: input, x: 224, y: 336});
   collidorSpace.addDynamicCollidorsFromEntity(character);
   game.addComponent(character);
 
@@ -43,10 +43,16 @@ function load(game, spriteSheetSet) {
   collidorSpace.addDynamicCollidorsFromEntity(enemy);
   game.addComponent(enemy);
 
+  const enemySprite2 = spriteSheetSet.get(195);
+  const enemy2 = new Enemy({PIXISprite: enemySprite2, x: 128, y: 96});
+  collidorSpace.addDynamicCollidorsFromEntity(enemy2);
+  game.addComponent(enemy2);
+
   game.setMap(map);
 
   const rlHandler = new RLBaseScene({player: character, input: input, collidorSpace, game});
   rlHandler.addEnemy(enemy);
+  rlHandler.addEnemy(enemy2);
 
   game.addComponent(rlHandler);
 
