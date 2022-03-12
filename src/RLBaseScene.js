@@ -8,9 +8,10 @@ export class RLBaseScene {
   #encounterInProgress = false;
   #enemiesNeedTurns = false;
   #typingModal;
-  #enemiesKilled = 0;
+  game;
+  #points = 0;
 
-  constructor({player, enemies=[], input, collidorSpace}) {
+  constructor({player, enemies=[], input, collidorSpace, game}) {
     this.player = player;
     this.player.components.rlController = {};
     this.player.components.rlController.encounterHandler = this.encounterHandler.bind(this);
@@ -20,6 +21,7 @@ export class RLBaseScene {
     this.collidorSpace = collidorSpace;
 
     this.#typingModal = new TypingModal({onComplete: this.onTypingComplete.bind(this)});
+    this.game = game;
   }
 
   addPlayer(playerEntity) {
@@ -39,9 +41,12 @@ export class RLBaseScene {
     const correct = results.charactersTyped.length - results.mistakes;
     results.entity.entity.encounterCompleteHandler(correct * 4); 
     if(results.entity.entity.dead === true) {
-      this.#enemiesKilled += 1;
+      this.#points += results.entity.entity.points;
     }
-    setTimeout(() => this.#encounterInProgress = false, 1000);
+    setTimeout(() => {
+      this.#encounterInProgress = false
+      this.checkWin();
+    }, 1000);
   }
   
   update(dt) {
@@ -56,6 +61,12 @@ export class RLBaseScene {
         this.player.turnTaken = false;
         this.#enemiesNeedTurns = true;
       }
+    }
+  }
+
+  checkWin() {
+    if(this.#points >= 1) {
+      this.game.loadNextLevel();
     }
   }
 

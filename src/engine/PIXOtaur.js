@@ -14,6 +14,7 @@ export class PIXOtaur {
   #spritesContainer;
 
   app;
+  nextLevelCallback = () => {};
 
   constructor({width=400, height=400, spriteScale={x: 1, y: 1}, collidor}) {
     this.app = new PIXI.Application({ width, height });
@@ -38,16 +39,16 @@ export class PIXOtaur {
   }
 
   removeComponent(entity) {
-    if(entity.components.sprite) {
-      this.#spritesContainer.removeChild(entity.components.sprite);
+    if(entity.components) {
+      if(entity.components.sprite) {
+        this.#spritesContainer.removeChild(entity.components.sprite);
+      }
+
+      if(entity.components.collidor) {
+        this.collidor.removeDynamicCollidorFromEntity(entity);
+      }
     }
-
-    this.collidor.removeDynamicCollidorFromEntity(entity);
     this.#entities = this.#entities.filter(entityListEntity => entityListEntity !== entity);
-  }
-
-  update(dt, elapsed) {
-    this.#entities.forEach(entity => entity.update(dt, elapsed));
   }
 
   setMap(map) {
@@ -67,6 +68,23 @@ export class PIXOtaur {
 
   render(dt, elapsed) {
     this.#entities.forEach(entity => entity.render(dt, elapsed));
+  }
+  
+  clear() {
+    this.#entities.forEach(entity => {
+      this.removeComponent(entity);
+    });
+    this.#entities = [];
+
+    this.app.stage.removeChild(this.#spritesContainer);
+    this.#spritesContainer = new PIXI.Container();
+    this.#spritesContainer.zIndex = 0;
+    this.app.stage.addChild(this.#spritesContainer);
+  }
+
+  loadNextLevel() {
+    this.clear();
+    this.nextLevelCallback();
   }
 
   start() {
