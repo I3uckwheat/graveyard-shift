@@ -3,7 +3,7 @@ import { PIXOentity } from "./engine/PIXOentity";
 export class PlayerCharacter extends PIXOentity {
   turnTaken = false;
   #unhandledCollisions = [];
-  health = 300;
+  health = 100;
   lastPosition;
   dead = false;
   #healthElement;
