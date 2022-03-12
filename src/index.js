@@ -40,6 +40,7 @@ document.body.appendChild(timer);
 let startedDate;
 let currentDate;
 game.onStart = () => {
+  mute.classList.add('show');
   audio.play();
   startedDate = new Date();
   currentDate = startedDate;
