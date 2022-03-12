@@ -14,6 +14,7 @@ export class PIXOtaur {
   #spritesContainer;
 
   app;
+  onStart = () => {};
   nextLevelCallback = () => {};
 
   constructor({width=400, height=400, spriteScale={x: 1, y: 1}, collidor}) {
@@ -91,6 +92,7 @@ export class PIXOtaur {
   }
 
   start() {
+    this.onStart();
     this.app.ticker.add(delta => {
       this.#elapsed += delta;
       this.update(delta, this.#elapsed);

@@ -6,11 +6,18 @@ import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
 
 import level1 from "./levels/level1";
-import level2 from "./levels/level2";
+
+import music from "url:./assets/music.mp3";
 
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 const game = new PIXOtaur({width: 400 * 2, height: 400 * 2, spriteScale: {x: 2, y: 2}});
+const audio = new Audio(music);
+audio.loop = true;
+
+game.onStart = () => {
+  audio.play();
+};
 
 const tilesetSheet = new PIXOtileSet({
   gidStart: 1,
