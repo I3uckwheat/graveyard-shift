@@ -45,7 +45,7 @@ export class RLBaseScene {
 
   onTypingComplete(results) {
     if(results.mistakes > 0) {
-      this.player.lostEncounter(results.mistakes * 20); // TODO: fair damage
+      this.player.lostEncounter(results.mistakes * 8); // TODO: fair damage
     }
 
     const correct = results.charactersTyped.length - results.mistakes;
