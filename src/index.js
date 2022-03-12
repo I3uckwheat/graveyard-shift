@@ -12,8 +12,10 @@ import music from "url:./assets/music.mp3";
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 const game = new PIXOtaur({width: 400 * 2, height: 400 * 2, spriteScale: {x: 2, y: 2}});
+
 const audio = new Audio(music);
 audio.loop = true;
+
 const mute = document.createElement('button');
 mute.innerText = "toggle audio";
 mute.id = "mute-button";
@@ -29,9 +31,25 @@ mute.addEventListener('click', () => {
 
 document.body.appendChild(mute);
 
+const timer = document.createElement('p');
+timer.id = 'timer';
+timer.innerText = "Time Played: ";
+document.body.appendChild(timer);
+
+let startedDate;
+let currentDate;
 game.onStart = () => {
   audio.play();
+  startedDate = new Date();
+  currentDate = startedDate;
 };
+
+game.onUpdate = (dt, elapsed) => {
+  currentDate = new Date();
+  const elapsedTime = new Date(currentDate - startedDate);
+  const elapsedMins = String(elapsedTime.getSeconds());
+  timer.innerText = `Time Played: ${elapsedTime.getMinutes()}:${elapsedMins.padStart(2, '0')}`;
+}
 
 
 const tilesetSheet = new PIXOtileSet({

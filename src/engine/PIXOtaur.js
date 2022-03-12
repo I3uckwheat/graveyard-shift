@@ -16,6 +16,7 @@ export class PIXOtaur {
   app;
   onStart = () => {};
   nextLevelCallback = () => {};
+  onUpdate = () => {};
 
   constructor({width=400, height=400, spriteScale={x: 1, y: 1}, collidor}) {
     this.app = new PIXI.Application({ width, height });
@@ -59,6 +60,7 @@ export class PIXOtaur {
   }
 
   update(dt, elapsed) {
+    this.onUpdate();
     this.#entities.forEach(entity => {
       if(entity.dead) {
         return this.removeComponent(entity);
