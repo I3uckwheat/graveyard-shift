@@ -6,9 +6,9 @@ import tileset from "./assets/spritesheets/16x16_tileset.png";
 import walls from "./assets/spritesheets/16x16_walls.png";
 
 import level1 from "./levels/level1";
-import level3 from "./levels/level3";
 
 import music from "url:./assets/music.mp3";
+import { WelcomeScreen } from "./WelcomeScreen.js";
 
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
@@ -52,6 +52,20 @@ game.onUpdate = (dt, elapsed) => {
   timer.innerText = `Time Played: ${elapsedTime.getMinutes()}:${elapsedMins.padStart(2, '0')}`;
 }
 
+game.onEnd = (dt, elapsed) => {
+  const winScreen = new WelcomeScreen(() => location.reload());
+  game.onUpdate = () => {};
+  winScreen.show();
+
+  document.querySelector("#health").innerHTML = '';
+  document.querySelector("#levelHealth").innerHTML = '';
+  timer.classList.add('won');
+
+  const youWonText = document.createElement('h1');
+  youWonText.innerText = "You Won!";
+  youWonText.id = "you-won-text";
+  document.body.appendChild(youWonText);
+}
 
 const tilesetSheet = new PIXOtileSet({
   gidStart: 1,

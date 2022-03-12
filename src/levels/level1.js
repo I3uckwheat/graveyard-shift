@@ -57,7 +57,10 @@ function load(game, spriteSheetSet) {
   game.addComponent(rlHandler);
 
   const welcome = new WelcomeScreen(() => game.start());
-  game.nextLevelCallback = () => {level2.load(game, spriteSheetSet)};
+  game.nextLevelCallback = () => {
+    game.onEnd();
+    // level2.load(game, spriteSheetSet)
+  };
   welcome.show();
 }
 

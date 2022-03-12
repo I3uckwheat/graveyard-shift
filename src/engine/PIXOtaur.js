@@ -17,6 +17,7 @@ export class PIXOtaur {
   onStart = () => {};
   nextLevelCallback = () => {};
   onUpdate = () => {};
+  onEnd = () => {};
 
   constructor({width=400, height=400, spriteScale={x: 1, y: 1}, collidor}) {
     this.app = new PIXI.Application({ width, height });
