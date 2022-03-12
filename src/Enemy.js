@@ -3,6 +3,8 @@ import { PIXOentity } from "./engine/PIXOentity";
 export class Enemy extends PIXOentity {
   #unhandledCollisions = [];
   dead = false;
+  direction = 'left';
+  directions = ["up", "down", "left", "right"];
 
   constructor({PIXISprite, x=0, y=0, input}) {
     super({PIXISprite, x, y, input});
@@ -18,13 +20,37 @@ export class Enemy extends PIXOentity {
 
   takeTurn() {
     const lastPosition = {x: this.x, y: this.y};
-    this.y -= 16;
+    switch(this.direction) {
+      case "up": 
+        this.y -= 16;
+        break;
+      case "down": 
+        this.y += 16;
+        break;
+      case "left": 
+        this.x -= 16;
+        break;
+      case "right": 
+        this.x += 16;
+        break;
+    }
+
+    const changeDirections = Math.random() > 0.80;
+    if(changeDirections) {
+      this.direction = this.chooseDirection();
+    }
 
     const collisions = this.components.collidor.getCollisions();
     if(collisions.length > 0) {
+      this.direction = this.chooseDirection();
+
       this.x = lastPosition.x;
       this.y = lastPosition.y;
     }
+  }
+
+  chooseDirection() {
+    return this.directions[Math.floor(Math.random() * this.directions.length)];
   }
 
   encounterCompleteHandler(damage) {
