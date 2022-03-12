@@ -49,7 +49,7 @@ function load(game, spriteSheetSet) {
 
   game.setMap(map);
 
-  const rlHandler = new RLBaseScene({player: character, input: input, collidorSpace});
+  const rlHandler = new RLBaseScene({player: character, input: input, collidorSpace, levelHealth: 200});
   rlHandler.addEnemy(enemy);
   rlHandler.addEnemy(enemy2);
 

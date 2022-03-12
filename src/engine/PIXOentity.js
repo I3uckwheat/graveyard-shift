@@ -3,6 +3,7 @@ export class PIXOentity {
   y;
   components = {};
   points = 1;
+  health = 100;
 
   constructor({x=0, y=0, PIXISprite, input}) {
     this.x = x;

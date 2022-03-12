@@ -1,16 +1,20 @@
+import { words } from "./assets/words";
+
 export class TypingModal {
   onComplete;
   modal;
   typeTime = 4000;
   typed = '';
   mistakes = 0;
+  words;
 
   constructor({onComplete}) {
     this.onComplete = onComplete;
     document.addEventListener('click', this.documentClickHandler.bind(this));
+    this.words = words;
   }
 
-  runTypingEncounter(entity) {
+  runTypingEncounter({entity}) {
     if(this.modal) return;
     const words = this.generateWords(entity.health);
 
@@ -19,7 +23,7 @@ export class TypingModal {
     wrapper.innerHTML = `
     <div class="overlay-content">
       <h2>Fight!!</h2>
-      <!--<img src=${undefined}/>-->
+      <p>Enemy Health: ${entity.health}</p>
       <p class="words"></p>
       <input></input>
     </div>
@@ -90,7 +94,17 @@ export class TypingModal {
     }
   }
 
-  generateWords(health) {
-    return "hello world foo bar baz";
+  generateWords(health = 100) {
+    let wordCount = Math.floor(health / 10);
+    if(wordCount > 5) {
+      wordCount = 5;
+    }
+
+    const returnValue = [];
+    for(let i = 0; i < wordCount; i++) {
+      returnValue.push(this.words[Math.floor(Math.random() * this.words.length - 1)]);
+    }
+
+    return returnValue.join(' ');
   } 
 }

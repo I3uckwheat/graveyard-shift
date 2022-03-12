@@ -9,9 +9,10 @@ export class RLBaseScene {
   #enemiesNeedTurns = false;
   #typingModal;
   game;
-  #points = 0;
+  #levelHealth;
+  #levelHealthElement;
 
-  constructor({player, enemies=[], input, collidorSpace, game}) {
+  constructor({player, enemies=[], input, collidorSpace, game, levelHealth=100}) {
     this.player = player;
     this.player.components.rlController = {};
     this.player.components.rlController.encounterHandler = this.encounterHandler.bind(this);
@@ -22,6 +23,16 @@ export class RLBaseScene {
 
     this.#typingModal = new TypingModal({onComplete: this.onTypingComplete.bind(this)});
     this.game = game;
+    this.#levelHealth = levelHealth;
+
+    const levelHealthElement = document.querySelector("#levelHealth");
+    if(!levelHealthElement) {
+      this.#levelHealthElement = document.createElement('p');
+      document.body.appendChild(this.#levelHealthElement);
+      this.#levelHealthElement.id = "levelHealth";
+    } else {
+      this.#levelHealthElement = levelHealthElement;
+    }
   }
 
   addPlayer(playerEntity) {
@@ -33,15 +44,14 @@ export class RLBaseScene {
   }
 
   onTypingComplete(results) {
-    console.log(results);
     if(results.mistakes > 0) {
       this.player.lostEncounter(results.mistakes * 5); // TODO: fair damage
     }
 
     const correct = results.charactersTyped.length - results.mistakes;
-    results.entity.entity.encounterCompleteHandler(correct * 4); 
-    if(results.entity.entity.dead === true) {
-      this.#points += results.entity.entity.points;
+    results.entity.encounterCompleteHandler(correct * 4); 
+    if(results.entity.dead === true) {
+      this.#levelHealth -= results.entity.startingHealth;
     }
     setTimeout(() => {
       this.#encounterInProgress = false
@@ -50,6 +60,7 @@ export class RLBaseScene {
   }
   
   update(dt) {
+    this.#levelHealthElement.innerText = `Level Health: ${this.#levelHealth}`
     if(this.#encounterInProgress) return;
     if(this.player.turnTaken) { // Enemies take turns
       if(this.#enemiesNeedTurns) {
@@ -65,7 +76,7 @@ export class RLBaseScene {
   }
 
   checkWin() {
-    if(this.#points >= 1) {
+    if(this.#levelHealth < 1) {
       this.game.loadNextLevel();
     }
   }

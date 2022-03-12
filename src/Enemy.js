@@ -2,13 +2,14 @@ import { PIXOentity } from "./engine/PIXOentity";
 
 export class Enemy extends PIXOentity {
   #unhandledCollisions = [];
-  health = 100;
   dead = false;
 
   constructor({PIXISprite, x=0, y=0, input}) {
     super({PIXISprite, x, y, input});
     this.components.collidor.hitbox = {box: {x: 0, y: 0, height: 16, width: 16}, name: "enemy"};
     this.components.collidor.handler = this.collisionHandler;
+    this.health = 100;
+    this.startingHealth = 100;
   }
 
   collisionHandler = (collidorName, entity) => {
