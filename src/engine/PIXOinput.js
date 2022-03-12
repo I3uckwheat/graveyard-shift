@@ -9,13 +9,13 @@ export class PIXOinput {
   }
 
  handleKeyDown(e) {
-  const key = e.key;
+  const key = e.key.toLowerCase();
   this.keysDown[key] = true;
   this.keysUp[key] = false;
  }
 
  handleKeyUp(e) {
-  const key = e.key;
+  const key = e.key.toLowerCase();
   this.keysDown[key] = false;
   this.keysUp[key] = true;
  }
