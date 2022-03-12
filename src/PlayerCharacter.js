@@ -79,7 +79,7 @@ export class PlayerCharacter extends PIXOentity {
     this.health -= damage;
     this.x = this.lastPosition.x;
     this.y = this.lastPosition.y;
-    if(this.health < 0) {
+    if(this.health <= 0) {
       alert("You've died! Press 'ok' to restart");
       window.location.reload();
     }
@@ -87,7 +87,7 @@ export class PlayerCharacter extends PIXOentity {
 
   wonEncounter(damage) {
     this.health - damage;
-    if(this.health < 0) {
+    if(this.health <= 0) {
       alert("You've died! Press 'ok' to restart");
       window.location.reload();
     }

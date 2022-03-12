@@ -104,9 +104,22 @@ export class TypingModal {
 
     const returnValue = [];
     for(let i = 0; i < wordCount; i++) {
-      returnValue.push(this.words[Math.floor(Math.random() * this.words.length)]);
+      let chosenWord = this.words[Math.floor(Math.random() * this.words.length)];
+      if (Math.random() <= 0.3) {
+        chosenWord = this.capetalize(chosenWord);
+      }
+      
+      returnValue.push(chosenWord);
     }
 
     return returnValue.join(' ');
   } 
+
+  capetalize(word) {
+    if (word.length <= 1) {
+      return word;
+    }
+
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  }
 }
