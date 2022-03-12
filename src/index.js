@@ -14,10 +14,25 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 const game = new PIXOtaur({width: 400 * 2, height: 400 * 2, spriteScale: {x: 2, y: 2}});
 const audio = new Audio(music);
 audio.loop = true;
+const mute = document.createElement('button');
+mute.innerText = "toggle audio";
+mute.id = "mute-button";
+let muted = false;
+mute.addEventListener('click', () => {
+  if(muted) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+  muted = !muted;
+});
+
+document.body.appendChild(mute);
 
 game.onStart = () => {
   audio.play();
 };
+
 
 const tilesetSheet = new PIXOtileSet({
   gidStart: 1,
