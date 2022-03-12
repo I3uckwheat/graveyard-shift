@@ -58,8 +58,7 @@ function load(game, spriteSheetSet) {
 
   const welcome = new WelcomeScreen(() => game.start());
   game.nextLevelCallback = () => {
-    game.onEnd();
-    // level2.load(game, spriteSheetSet)
+    level2.load(game, spriteSheetSet)
   };
   welcome.show();
 }
