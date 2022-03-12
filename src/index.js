@@ -55,20 +55,20 @@ game.onUpdate = (dt, elapsed) => {
   timer.innerText = `Time Played: ${elapsedTime.getMinutes()}:${elapsedMins.padStart(2, '0')}`;
 }
 
-game.onEnd = (dt, elapsed) => {
-  const winScreen = new WelcomeScreen(() => location.reload());
+game.onEnd = (gameOverText) => {
+  const winScreen = new WelcomeScreen(() => location.reload(), "Play Again");
   game.onUpdate = () => {};
   winScreen.show();
 
-  document.querySelector("#health").innerHTML = '';
-  document.querySelector("#levelHealth").innerHTML = '';
-  timer.classList.add('won');
+  document.querySelector('#health').innerHTML = '';
+  document.querySelector('#levelHealth').innerHTML = '';
+  timer.classList.add('game-over');
 
-  const youWonText = document.createElement('h1');
-  youWonText.innerText = "You Won!";
-  youWonText.id = "you-won-text";
-  document.body.appendChild(youWonText);
-}
+  const gameOverMessage = document.createElement("h1");
+  gameOverMessage.innerText = gameOverText ? gameOverText : "You Won!";
+  gameOverMessage.id = 'game-over-text';
+  document.body.appendChild(gameOverMessage);
+};
 
 const tilesetSheet = new PIXOtileSet({
   gidStart: 1,

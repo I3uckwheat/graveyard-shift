@@ -52,11 +52,11 @@ export class PlayerCharacter extends PIXOentity {
       }
 
       const movementCollisions = this.components.collidor.areaCollisions({
-        x: this.x,
-        y: this.y,
-        width: this.components.collidor.hitbox.box.width,
-        height: this.components.collidor.hitbox.box.height
-      }, this);
+          x: this.x,
+          y: this.y,
+          width: this.components.collidor.hitbox.box.width,
+          height: this.components.collidor.hitbox.box.height
+        }, this);
 
       if(movementCollisions.length > 0) {
         for(const collision of movementCollisions) {
@@ -80,16 +80,14 @@ export class PlayerCharacter extends PIXOentity {
     this.x = this.lastPosition.x;
     this.y = this.lastPosition.y;
     if(this.health <= 0) {
-      alert("You've died! Press 'ok' to restart");
-      window.location.reload();
+      this.dead = true;
     }
   }
 
   wonEncounter(damage) {
     this.health - damage;
     if(this.health <= 0) {
-      alert("You've died! Press 'ok' to restart");
-      window.location.reload();
+      this.dead = true;
     }
   }
 
