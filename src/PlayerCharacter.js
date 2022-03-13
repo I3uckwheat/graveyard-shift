@@ -52,11 +52,11 @@ export class PlayerCharacter extends PIXOentity {
       }
 
       const movementCollisions = this.components.collidor.areaCollisions({
-          x: this.x,
-          y: this.y,
-          width: this.components.collidor.hitbox.box.width,
-          height: this.components.collidor.hitbox.box.height
-        }, this);
+        x: this.x,
+        y: this.y,
+        width: this.components.collidor.hitbox.box.width,
+        height: this.components.collidor.hitbox.box.height
+      }, this);
 
       if(movementCollisions.length > 0) {
         for(const collision of movementCollisions) {

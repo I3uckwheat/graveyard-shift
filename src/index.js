@@ -56,7 +56,7 @@ game.onUpdate = (dt, elapsed) => {
 }
 
 game.onEnd = (gameOverText) => {
-  const winScreen = new WelcomeScreen(() => location.reload(), "Play Again");
+  const winScreen = new WelcomeScreen(() => location.reload());
   game.onUpdate = () => {};
   winScreen.show();
 
@@ -65,7 +65,7 @@ game.onEnd = (gameOverText) => {
   timer.classList.add('game-over');
 
   const gameOverMessage = document.createElement("h1");
-  gameOverMessage.innerText = gameOverText ? gameOverText : "You Won!";
+  gameOverMessage.innerText = gameOverText;
   gameOverMessage.id = 'game-over-text';
   document.body.appendChild(gameOverMessage);
 };

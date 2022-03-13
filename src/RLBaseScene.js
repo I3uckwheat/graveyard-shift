@@ -46,7 +46,6 @@ export class RLBaseScene {
   onTypingComplete(results) {
     if(results.mistakes > 0) {
       this.player.lostEncounter(results.mistakes * 8); // TODO: fair damage
-      this.checkLose();
     }
 
     const correct = results.charactersTyped.length - results.mistakes;
@@ -56,7 +55,7 @@ export class RLBaseScene {
     }
     setTimeout(() => {
       this.#encounterInProgress = false
-      this.checkWin();
+      this.checkResult();
     }, 1000);
   }
   
@@ -76,15 +75,13 @@ export class RLBaseScene {
     }
   }
 
-  checkWin() {
-    if(this.#levelHealth < 1) {
-      this.game.loadNextLevel();
-    }
-  }
-
-  checkLose() {
+  checkResult() {
     if (this.player.dead) {
       this.game.onEnd("You Lost!");
+    } 
+
+    if(this.#levelHealth < 1) {
+      this.game.loadNextLevel();
     }
   }
 
