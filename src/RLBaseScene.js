@@ -55,7 +55,7 @@ export class RLBaseScene {
     }
     setTimeout(() => {
       this.#encounterInProgress = false
-      this.checkWin();
+      this.checkResult();
     }, 1000);
   }
   
@@ -75,7 +75,11 @@ export class RLBaseScene {
     }
   }
 
-  checkWin() {
+  checkResult() {
+    if (this.player.dead) {
+      this.game.onEnd("You Lost!");
+    } 
+
     if(this.#levelHealth < 1) {
       this.game.loadNextLevel();
     }

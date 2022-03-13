@@ -58,7 +58,7 @@ export class Enemy2 extends PIXOentity {
 
   encounterCompleteHandler(damage) {
     this.health -= damage;
-    if(this.health < 0) this.dead = true;
+    if(this.health <= 0) this.dead = true;
   }
 
   update(dt) {

@@ -78,7 +78,7 @@ function load(game, spriteSheetSet) {
   game.addComponent(rlHandler);
 
   game.nextLevelCallback = () => {
-    game.onEnd();
+    game.onEnd("You Won!");
   };
   game.start();
 }
